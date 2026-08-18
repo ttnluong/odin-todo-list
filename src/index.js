@@ -1,8 +1,7 @@
 import "./styles.css";
-import loadHome from "./home.js";
-import loadMenu from "./menu.js";
-import loadAbout from "./about.js";
+import { addProjectToList } from "./state.js";
+// import "./events.js";
+import { displayProjects } from "./render.js";
 
-
-
-
+addProjectToList("test", "test", "test");
+displayProjects();

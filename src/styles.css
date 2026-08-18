@@ -1,0 +1,27 @@
+body {
+    height: 100vh;
+}
+
+.container {
+    height: 100%;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    grid-template-areas: 
+    "nav tasks form";
+}
+
+nav {
+    grid-area: nav;
+    display: grid;
+    grid-auto-rows: min-content;
+    background-color: beige;
+}
+
+ul {
+
+}
+
+nav li {
+    width: 200px;
+    height: 100px;
+}

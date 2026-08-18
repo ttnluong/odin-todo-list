@@ -1,21 +1,27 @@
 const projects = [];
 const tasks = [];
 
-class Project {
-    constructor(title, color, order) {
+export class Project {
+    constructor(title, description, color, order) {
         this.id = crypto.randomUUID();
         this.title = title;
+        this.description = description;
         this.color = color;
         this.order = order;
     };
 };
 
-function addProjectToList {
-    const project = new Project();
+export function addProjectToList(title, description, color, order) {
+    const project = new Project(title, description, color, order);
     projects.push(project);
+    return project;
 };
 
-class Task {
+export function getProjects() {
+    return projects;
+}
+
+/* class Task {
     constructor(projectId, title, description, dueDate, priority, notes, checklist) {
         this.id = crypto.randomUUID();
         this.projectId = projectId;
@@ -28,7 +34,7 @@ class Task {
     };
 };
 
-function addTaskToProject {
+function addTaskToProject() {
     const task = new Task();
     tasks.push(task);
-};
+}; */
