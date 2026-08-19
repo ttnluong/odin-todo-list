@@ -41,11 +41,11 @@ body {
     display: grid;
     grid-template-columns: auto 1fr auto;
     grid-template-areas: 
-    "nav tasks form";
+    "sidebar tasks form";
 }
 
-nav {
-    grid-area: nav;
+.sidebar {
+    grid-area: sidebar;
     display: grid;
     grid-auto-rows: min-content;
     background-color: beige;
@@ -56,6 +56,6 @@ ul {
     gap: 40px; 
 }
 
-nav li {
+.sidebar li {
     width: 200px;
 }

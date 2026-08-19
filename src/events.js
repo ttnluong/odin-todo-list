@@ -1,5 +1,5 @@
 import { addProjectToList } from "./state.js";
-import { displayProjects } from "./render.js";
+import { displaySidebar } from "./render.js";
 
 const addProject = document.getElementById("project-form");
 
@@ -10,6 +10,6 @@ addProject.addEventListener("submit", (event) => {
     const color = document.getElementById("project-color").value;
 
     addProjectToList(title, description, color);
-    displayProjects();
+    displaySidebar();
     document.getElementById("project-modal").close();
 });

@@ -1,23 +1,37 @@
-import { getProjects } from "./state.js";
+import { getViews, getProjects, getActiveFilter } from "./state.js";
 
-function createProjectItem(project) {
-    const projectItem = document.createElement("li");
-    const projectTitle = document.createElement("h3");
+function createItem(item) {
+    const listItem = document.createElement("li");
+    const button = document.createElement("button");
 
-    projectTitle.textContent = project.title;
+    button.classList.add("sidebar-item");
+    button.dataset.id = item.id;
+    button.textContent = item.title;
 
-    projectItem.append(projectTitle);
+    listItem.append(button);
 
-    return projectItem;
+    return listItem;
 }
 
-export function displayProjects() {
-    const list = document.querySelector(".sidebar-projects");
+export function displaySidebarList(container, items) {
+    const list = document.querySelector(container);
     list.innerHTML = "";
-    getProjects().forEach(project => list.appendChild(createProjectItem(project)));
+    items.forEach(item => list.appendChild(createItem(item)));
+}
+
+export function displaySidebar() {
+    displaySidebarList(".view-list", getViews());
+    displaySidebarList(".project-list", getProjects())
 }
 
 
+function displayHeader() {
+    const header = document.querySelector("header");
+    const headerTitle = document.createElement("h1");
+    const headerDescription = document.createElement("p");
+
+    headerTitle.textContent = project.title;
+}
 
 /* function createTaskCard(task) {
 

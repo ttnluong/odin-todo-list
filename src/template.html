@@ -9,20 +9,24 @@
 <body>
    <div class="container">
         <aside class="sidebar">
-            <ul class="sidebar-all">
-                <li>All</li>
-                <li>Today</li>
-            </ul>
-            <h3>
-                My Projects
-            </h3>
-             <ul class="sidebar-projects">
-                <!-- render project list -->
-            </ul>
-             <li class="add-project-item">
-                <button class="add-project-btn" command="show-modal" commandfor="project-modal">+ add project</button>
-            </li>
-        </nav>
+            <section class="sidebar-views">
+                <ul class="view-list">
+                    <li>All</li>
+                    <li>Today</li>
+                </ul>
+            </section>
+            <section class="sidebar-projects">
+                <h3>
+                    My Projects
+                </h3>
+                 <ul class="project-list">
+                    <!-- render project list -->
+                </ul>
+                 <li class="add-project-item">
+                    <button class="add-project-btn" command="show-modal" commandfor="project-modal">+ add project</button>
+                </li>
+            </section>
+        </nav> 
         <main>
             <header>
                 <!-- title -->
