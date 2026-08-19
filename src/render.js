@@ -12,7 +12,7 @@ function createProjectItem(project) {
 }
 
 export function displayProjects() {
-    const list = document.querySelector(".nav-projects");
+    const list = document.querySelector(".sidebar-projects");
     list.innerHTML = "";
     getProjects().forEach(project => list.appendChild(createProjectItem(project)));
 }

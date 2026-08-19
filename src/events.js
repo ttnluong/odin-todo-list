@@ -1,9 +1,15 @@
+import { addProjectToList } from "./state.js";
+import { displayProjects } from "./render.js";
+
 const addProject = document.getElementById("project-form");
 
 addProject.addEventListener("submit", (event) => {
     event.preventDefault();
     const title = document.getElementById("project-title").value;
+    const description = document.getElementById("project-description").value;
+    const color = document.getElementById("project-color").value;
 
-    addProject(title);
+    addProjectToList(title, description, color);
     displayProjects();
+    document.getElementById("project-modal").close();
 });

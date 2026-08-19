@@ -1,3 +1,37 @@
+/* NORMALISE
+====================================================== */
+
+*, *:before, *:after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    max-width: 100%;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+ul, ol {
+    list-style: none;
+}
+
+input, button {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+hr {
+    border: none;
+}
+
+/* NORMALISE
+====================================================== */
+
 body {
     height: 100vh;
 }
@@ -18,10 +52,10 @@ nav {
 }
 
 ul {
-
+    display: grid;
+    gap: 40px; 
 }
 
 nav li {
     width: 200px;
-    height: 100px;
 }

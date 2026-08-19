@@ -8,12 +8,20 @@
 </head>
 <body>
    <div class="container">
-        <nav>
-            <ul class="nav-all">
+        <aside class="sidebar">
+            <ul class="sidebar-all">
+                <li>All</li>
+                <li>Today</li>
             </ul>
-             <ul class="nav-projects">
+            <h3>
+                My Projects
+            </h3>
+             <ul class="sidebar-projects">
                 <!-- render project list -->
             </ul>
+             <li class="add-project-item">
+                <button class="add-project-btn" command="show-modal" commandfor="project-modal">+ add project</button>
+            </li>
         </nav>
         <main>
             <header>
@@ -23,10 +31,34 @@
                 <!-- render cards -->
             </section>
         </main>
-        <aside>
+        <aside class="task-form">
             <!-- edit form -->
         </aside>
    </div>
+   <dialog class="modal" id="project-modal">
+        <form id="project-form">
+            <div class="form-wrapper">
+                <h2>Add project</h2>
+                <hr>
+                <div class="form-content">
+                    <label for="project-title">Title *</label>
+                    <input type="text" id="project-title" name="title" required>
+                </div>
+                <div class="form-content">
+                    <label for="project-description">Description</label>
+                        <input type="text" id="project-description" name="description">
+                </div>
+                <div class="form-content">
+                    <label for="project-color">Color</label>
+                    <input type="number" id="project-color" name="color">
+                </div>
+            </div>
+            <div class="add-project-button">
+                <button type="button" class="cancel-btn" commandfor="project-modal" command="close">Cancel</button>
+                <button type="submit" class="submit-btn" id="submit">Add project</button>
+            </div>
+        </form>
+    </dialog>
 </body>
 </html>
 
