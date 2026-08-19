@@ -1,9 +1,10 @@
-import { addProjectToList, setActiveFilter } from "./state.js";
-import { displaySidebar, displayHeader} from "./render.js";
+import { addProjectToList, setActiveFilter, addTaskToProject } from "./state.js";
+import { displaySidebar, displayHeader, displayTasks} from "./render.js";
 
 export function refresh() {
   displaySidebar();
   displayHeader();
+  displayTasks();
 }
 
 function submitProject() {
@@ -36,7 +37,30 @@ function selectFilter() {
     });
 }
 
+function submitTask() {
+    const taskForm = document.getElementById("task-form");
+
+    taskForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const title = document.getElementById("task-title").value;
+        const description = document.getElementById("task-description").value;
+        const dueDate = document.getElementById("task-due").value;
+        const priority = document.getElementById("task-priority").value;
+        const projectId = document.getElementById("task-project").value;
+
+        const newTask = addTaskToProject(projectId, title, description, dueDate, priority);
+        refresh();
+
+        document.getElementById("task-modal").close();
+        taskForm.reset();
+    });
+}
+
+
 export function attachEvents() {
     submitProject();
     selectFilter();
+    submitTask();
 }
+
+
