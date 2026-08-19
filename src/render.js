@@ -1,4 +1,4 @@
-import { getViews, getProjects, getActiveFilter } from "./state.js";
+import { getViews, getProjects, getActiveFilter, setActiveFilter } from "./state.js";
 
 function createItem(item) {
     const listItem = document.createElement("li");
@@ -20,18 +20,21 @@ export function displaySidebarList(container, items) {
 }
 
 export function displaySidebar() {
-    displaySidebarList(".view-list", getViews());
-    displaySidebarList(".project-list", getProjects())
+    displaySidebarList(".views-list", getViews());
+    displaySidebarList(".projects-list", getProjects())
 }
 
 
-function displayHeader() {
-    const header = document.querySelector("header");
-    const headerTitle = document.createElement("h1");
-    const headerDescription = document.createElement("p");
+export function displayHeader() {
+    const active = getActiveFilter();
 
-    headerTitle.textContent = project.title;
+    const headerTitle = document.getElementById("header-title");
+    const headerDescription = document.getElementById("header-description");
+
+    headerTitle.textContent = active.title;
+    headerDescription.textContent = active.description;
 }
+
 
 /* function createTaskCard(task) {
 

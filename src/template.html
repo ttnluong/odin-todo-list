@@ -8,28 +8,28 @@
 </head>
 <body>
    <div class="container">
-        <aside class="sidebar">
+        <aside class="sidebar" id="sidebar">
             <section class="sidebar-views">
-                <ul class="view-list">
-                    <li>All</li>
-                    <li>Today</li>
+                <ul class="views-list">
+                    <!-- render view list -->
                 </ul>
             </section>
             <section class="sidebar-projects">
                 <h3>
                     My Projects
                 </h3>
-                 <ul class="project-list">
+                 <ul class="projects-list">
                     <!-- render project list -->
                 </ul>
                  <li class="add-project-item">
                     <button class="add-project-btn" command="show-modal" commandfor="project-modal">+ add project</button>
                 </li>
             </section>
-        </nav> 
+        </aside> 
         <main>
             <header>
-                <!-- title -->
+                <h1 id="header-title"></h1>
+                <p id="header-description"></p>
             </header>
             <section>
                 <!-- render cards -->

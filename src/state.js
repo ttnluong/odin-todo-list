@@ -42,7 +42,7 @@ export function addProjectToList(title, description, color) {
 };
 
 export function setActiveFilter(id) {
-    activeFilterId = title;
+    activeFilterId = id;
 }
 
 export function getActiveFilter() {

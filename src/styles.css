@@ -59,3 +59,8 @@ ul {
 .sidebar li {
     width: 200px;
 }
+
+main {
+    grid-area: tasks;
+    display: grid;
+}
