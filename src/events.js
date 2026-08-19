@@ -6,30 +6,37 @@ export function refresh() {
   displayHeader();
 }
 
-const addProject = document.getElementById("project-form");
+function submitProject() {
+    const projectForm = document.getElementById("project-form");
 
-addProject.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const title = document.getElementById("project-title").value;
-    const description = document.getElementById("project-description").value;
-    const color = document.getElementById("project-color").value;
+    projectForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const title = document.getElementById("project-title").value;
+        const description = document.getElementById("project-description").value;
+        const color = document.getElementById("project-color").value;
 
-    const newProject = addProjectToList(title, description, color);
-    setActiveFilter(newProject.id);
+        const newProject = addProjectToList(title, description, color);
+        setActiveFilter(newProject.id);
+        refresh();
 
-    refresh();
-    document.getElementById("project-modal").close();
-    addProject.reset();
-});
+        document.getElementById("project-modal").close();
+        projectForm.reset();
+    });
+}
 
-const sidebar = document.getElementById("sidebar");
+function selectFilter() {
+    const sidebar = document.getElementById("sidebar");
+
+    sidebar.addEventListener("click", (e) => {
+        const btn = e.target.closest(".sidebar-item");
+        if (btn) {
+            setActiveFilter(btn.dataset.id);
+            refresh();
+        }
+    });
+}
 
 export function attachEvents() {
-    sidebar.addEventListener("click", (e) => {
-    const btn = e.target.closest(".sidebar-item");
-    if (btn) {
-        setActiveFilter(btn.dataset.id);
-        refresh();
-    };
-});
-};
+    submitProject();
+    selectFilter();
+}
