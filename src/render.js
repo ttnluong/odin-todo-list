@@ -83,7 +83,7 @@ export function displayTasks() {
     getFilteredTasks().forEach(task => container.appendChild(createTaskCard(task, active)));
 }
 
-// 
+// taskform
 // ==========================================
 
 export function populateProjectSelect() {
@@ -106,3 +106,33 @@ export function populateProjectSelect() {
 document.getElementById("add-task-btn").addEventListener("click", () => {
   populateProjectSelect();
 });
+
+export function displayTaskEditor(taskId) {
+    const form = document.getElementById("edit-task-form");
+    const task = taskId ? getTaskById(taskId) : null;
+
+    if (!task) {
+        form.classList.add("hidden");
+        form.dataset.editingId = "";
+        return;
+    }
+
+    form.classList.remove("hidden");
+
+    document.getElementById("edit-task-title").value = task.title;
+    document.getElementById("edit-task-description").value = task.description;
+    document.getElementById("edit-task-due").value = task.dueDate;
+    document.getElementById("edit-task-priority").value = task.priority;
+
+    const projectSelect = document.getElementById("edit-task-project");
+    projectSelect.innerHTML = '<option value="">Unassigned</option>';
+    getProjects().forEach(project => {
+        const option = document.createElement("option");
+        option.value = project.id;
+        option.textContent = project.title;
+        if (project.id === task.projectId) option.selected = true;
+        projectSelect.appendChild(option);
+    });
+
+    form.dataset.editingId = taskId;
+}

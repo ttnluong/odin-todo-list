@@ -41,30 +41,30 @@
                     <span>priority</span>
                 </div>
             </header>
-            <section class="tasks-list">
+            <section class="tasks-list" id="tasks-list">
                 <!-- render cards -->
             </section>
         </main>
         <aside class="task-form">
-            <form id="task-form">
+            <form id="edit-task-form" class="hidden">
                 <div class="form-wrapper">
-                    <h2>Add task</h2>
+                    <h2>Edit details</h2>
                     <hr>
                     <div class="form-content">
-                        <label for="task-title">Title *</label>
-                        <input type="text" id="task-title" name="title" required>
+                        <label for="edit-task-title">Title *</label>
+                        <input type="text" id="edit-task-title" name="title" required>
                     </div>
                     <div class="form-content">
-                        <label for="task-description">Description</label>
-                        <input type="text" id="task-description" name="description">
+                        <label for="edit-task-description">Description</label>
+                        <input type="text" id="edit-task-description" name="description">
                     </div>
                     <div class="form-content">
-                        <label for="task-due">Due Date</label>
-                        <input type="date" id="task-due" name="dueDate">
+                        <label for="edit-task-due">Due Date</label>
+                        <input type="date" id="edit-task-due" name="dueDate">
                     </div>
                     <div class="form-content">
-                        <label for="task-priority">Priority</label>
-                        <select id="task-priority" name="priority">
+                        <label for="edit-task-priority">Priority</label>
+                        <select id="edit-task-priority" name="priority">
                             <option value="">Select priority</option>
                             <option value="Low">Low</option>
                             <option value="Medium">Medium</option>
@@ -72,14 +72,14 @@
                         </select>
                     </div>
                     <div class="form-content">
-                        <label for="task-project">Project</label>
-                        <select id="task-project" name="projectId">
+                        <label for="edit-task-project">Project</label>
+                        <select id="edit-task-project" name="projectId">
                             <!-- render project list -->
                         </select>
                     </div>
                 </div>
                 <div class="project-form-buttons">
-                    <button type="button" class="cancel-btn" commandfor="task-modal" command="close">Cancel</button>
+                    <button type="button" class="cancel-btn" id="edit-task-cancel">Cancel</button>
                     <button type="submit" class="submit-btn" id="submit">Add task</button>
                 </div>
             </form>

@@ -1,5 +1,5 @@
-import { addProjectToList, setActiveFilter, addTaskToProject, toggleTaskDone } from "./state.js";
-import { displaySidebar, displayHeader, displayTasks} from "./render.js";
+import { addProjectToList, setActiveFilter, addTaskToProject, toggleTaskDone, updateTask } from "./state.js";
+import { displaySidebar, displayHeader, displayTasks, displayTaskEditor } from "./render.js";
 
 export function refresh() {
   displaySidebar();
@@ -57,7 +57,7 @@ function submitTask() {
 }
 
 function toggleTaskCheckbox() {
-    const taskList = document.querySelector(".tasks-list");
+    const taskList = document.getElementById("tasks-list");
 
     taskList.addEventListener("change", (e) => {
         if (e.target.classList.contains("task-checkbox")) {
@@ -68,11 +68,49 @@ function toggleTaskCheckbox() {
     });
 }
 
+function editTask() {
+  const taskList = document.getElementById("tasks-list");
+  const editForm = document.getElementById("edit-task-form");
+  const aside = document.querySelector(".task-form")
+
+  taskList.addEventListener("click", (e) => {
+    if (e.target.classList.contains("task-checkbox")) return;
+    const card = e.target.closest(".card-task");
+    if (card) {
+      displayTaskEditor(card.dataset.id);
+    }
+  });
+
+  editForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const taskId = editForm.dataset.editingId;
+
+    updateTask(taskId, {
+      title: document.getElementById("edit-task-title").value.trim(),
+      description: document.getElementById("edit-task-description").value.trim(),
+      dueDate: document.getElementById("edit-task-due").value,
+      priority: document.getElementById("edit-task-priority").value,
+      projectId: document.getElementById("edit-task-project").value || null
+    });
+
+    displayTasks();
+    displayTaskEditor(); // hides form after saving
+  });
+
+  document.getElementById("edit-task-cancel").addEventListener("click", () => {
+    editForm.reset();
+    displayTaskEditor(); // hides form on cancel
+  });
+
+}
+
+
 export function attachEvents() {
     submitProject();
     selectFilter();
     submitTask();
     toggleTaskCheckbox();
+    editTask();
 }
 
 

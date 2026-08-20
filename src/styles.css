@@ -105,3 +105,7 @@ main header {
     width: 400px;
     background-color: rgb(191, 212, 217);
 }
+
+.hidden {
+  display: none;
+}
