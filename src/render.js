@@ -1,4 +1,7 @@
-import { getViews, getProjects, getActiveFilter, getFilteredTasks } from "./state.js";
+import { getViews, getProjects, getActiveFilter, getFilteredTasks , getProjectById, getTaskById } from "./state.js";
+
+// sidebar
+// ==========================================
 
 function createSidebarItem(item) {
     const listItem = document.createElement("li");
@@ -24,6 +27,8 @@ export function displaySidebar() {
     displaySidebarList(".projects-list", getProjects())
 }
 
+// header main
+// ==========================================
 
 export function displayHeader() {
     const active = getActiveFilter();
@@ -35,21 +40,37 @@ export function displayHeader() {
     headerDescription.textContent = active.description;
 }
 
+// tasks list
+// ==========================================
 
-function createTaskCard(task) {
+function createTaskCard(task, active) {
     const taskCard = document.createElement("article");
-    const taskTitle = document.createElement("h2");
-    const taskDueDate = document.createElement("span");
-    const taskPriority = document.createElement("span");
-
     taskCard.classList.add("card-task");
     taskCard.dataset.id = task.id;
 
+    const taskCheckbox = document.createElement("input");
+    taskCheckbox.type = "checkbox";
+    taskCheckbox.classList.add("task-checkbox");
+    taskCheckbox.checked = task.done;
+
+    const taskTitle = document.createElement("h2");
     taskTitle.textContent = task.title;
+    taskTitle.classList.toggle("done", task.done);
+
+    const taskDueDate = document.createElement("span");
     taskDueDate.textContent = task.dueDate;
+
+    const taskPriority = document.createElement("span");
     taskPriority.textContent = task.priority;
 
-    taskCard.append(taskTitle, taskDueDate, taskPriority);
+    let taskProjectTag = "";
+    if (active?.id === "all" || active?.id === "today") {
+        taskProjectTag = document.createElement("span");
+        const project = getProjectById(task.projectId);
+        taskProjectTag.textContent = project ? project.title : "Unassigned";
+    }
+
+    taskCard.append(taskCheckbox, taskTitle, taskProjectTag, taskDueDate, taskPriority);
 
     return taskCard;
 }
@@ -57,10 +78,13 @@ function createTaskCard(task) {
 export function displayTasks() {
     const container = document.querySelector(".tasks-list");
     container.innerHTML = "";
-    getFilteredTasks().forEach(task => container.appendChild(createTaskCard(task)));
+    const active = getActiveFilter();
+
+    getFilteredTasks().forEach(task => container.appendChild(createTaskCard(task, active)));
 }
 
-
+// 
+// ==========================================
 
 export function populateProjectSelect() {
   const select = document.getElementById("task-project");

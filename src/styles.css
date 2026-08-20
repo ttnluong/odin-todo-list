@@ -29,7 +29,7 @@ hr {
     border: none;
 }
 
-/* NORMALISE
+/* BASE
 ====================================================== */
 
 body {
@@ -43,6 +43,9 @@ body {
     grid-template-areas: 
     "sidebar tasks form";
 }
+
+/* SIDEBAR
+====================================================== */
 
 .sidebar {
     grid-area: sidebar;
@@ -60,7 +63,45 @@ ul {
     width: 200px;
 }
 
+/* TASKS
+====================================================== */
+
 main {
     grid-area: tasks;
     display: grid;
+    grid-template-rows: auto 1fr;
+    gap: 40px;
+}
+
+main header {
+    display: grid;
+    grid-template-rows: auto auto;
+    gap: 20px;
+}
+
+.header-content {
+    display: grid;
+    grid-template-columns: 0.1fr 1fr 0.2fr 0.2fr 0.2fr;
+    background-color: burlywood;
+}
+
+.card-task {
+    display: grid;
+    grid-template-columns: 0.1fr 1fr 0.2fr 0.2fr 0.2fr;
+    background-color: darkcyan;
+}
+
+.card-task h2.done {
+  text-decoration: line-through;
+  color: #888;
+}
+
+
+/* TASKFORM
+====================================================== */
+
+.task-form {
+    grid-area: form;
+    width: 400px;
+    background-color: rgb(191, 212, 217);
 }

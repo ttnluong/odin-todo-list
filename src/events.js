@@ -1,4 +1,4 @@
-import { addProjectToList, setActiveFilter, addTaskToProject } from "./state.js";
+import { addProjectToList, setActiveFilter, addTaskToProject, toggleTaskDone } from "./state.js";
 import { displaySidebar, displayHeader, displayTasks} from "./render.js";
 
 export function refresh() {
@@ -56,11 +56,23 @@ function submitTask() {
     });
 }
 
+function toggleTaskCheckbox() {
+    const taskList = document.querySelector(".tasks-list");
+
+    taskList.addEventListener("change", (e) => {
+        if (e.target.classList.contains("task-checkbox")) {
+            const card = e.target.closest(".card-task");
+            toggleTaskDone(card.dataset.id);
+            refresh();
+        }
+    });
+}
 
 export function attachEvents() {
     submitProject();
     selectFilter();
     submitTask();
+    toggleTaskCheckbox();
 }
 
 

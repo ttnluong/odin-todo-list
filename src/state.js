@@ -1,17 +1,4 @@
-// constructors
-// ==========================================
-
-export class Project {
-    constructor(title, description, color) {
-        this.id = crypto.randomUUID();
-        this.type = "project";
-        this.title = title;
-        this.description = description;
-        this.color = color;
-    };
-};
-
-// filters, projects and tasks
+// views, projects and tasks
 // ==========================================
 
 const views = [
@@ -28,6 +15,22 @@ let activeFilterId = "all";
 // sidebar
 // ==========================================
 
+class Project {
+    constructor(title, description, color) {
+        this.id = crypto.randomUUID();
+        this.type = "project";
+        this.title = title;
+        this.description = description;
+        this.color = color;
+    };
+};
+
+export function addProjectToList(title, description, color) {
+    const project = new Project(title, description, color);
+    projects.push(project);
+    return project;
+};
+
 export function getViews() {
   return views;
 };
@@ -36,11 +39,9 @@ export function getProjects() {
     return projects;
 };
 
-export function addProjectToList(title, description, color) {
-    const project = new Project(title, description, color);
-    projects.push(project);
-    return project;
-};
+export function getProjectById(id) {
+  return projects.find(project => project.id === id);
+}
 
 export function setActiveFilter(id) {
     activeFilterId = id;
@@ -62,6 +63,7 @@ class Task {
         this.description = description;
         this.dueDate = dueDate;
         this.priority = priority;
+        this.done = false;
     };
 };
 
@@ -70,6 +72,18 @@ export function addTaskToProject(projectId, title, description, dueDate, priorit
     tasks.push(task);
     return task;
 };
+
+export function getTaskById(id) {
+  return tasks.find(task => task.id === id);
+}
+
+export function updateTask(id, updates) {
+  const task = getTaskById(id);
+  if (task) {
+    Object.assign(task, updates);
+  }
+  return task;
+}
 
 export function getFilteredTasks() {
     const active = getActiveFilter();
@@ -81,4 +95,11 @@ export function getFilteredTasks() {
     }
 
     return tasks.filter(task => task.projectId === active.id);
+}
+
+export function toggleTaskDone(taskId) {
+  const task = tasks.find(task => task.id === taskId);
+  if (task) {
+    task.done = !task.done;
+  }
 }

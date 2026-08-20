@@ -28,16 +28,61 @@
         </aside> 
         <main>
             <header>
-                <h1 id="header-title"></h1>
-                <p id="header-description"></p>
-                <button id="add-task-btn" command="show-modal" commandfor="task-modal">+ add task</button>
+                <div class="header-main">
+                    <h1 id="header-title"></h1>
+                    <p id="header-description"></p>
+                    <button id="add-task-btn" command="show-modal" commandfor="task-modal">+ add task</button>
+                </div>
+                <div class="header-content">
+                    <span></span>
+                    <span>title</span>
+                    <span>project</span>
+                    <span>due date</span>
+                    <span>priority</span>
+                </div>
             </header>
             <section class="tasks-list">
                 <!-- render cards -->
             </section>
         </main>
         <aside class="task-form">
-            <!-- edit form -->
+            <form id="task-form">
+                <div class="form-wrapper">
+                    <h2>Add task</h2>
+                    <hr>
+                    <div class="form-content">
+                        <label for="task-title">Title *</label>
+                        <input type="text" id="task-title" name="title" required>
+                    </div>
+                    <div class="form-content">
+                        <label for="task-description">Description</label>
+                        <input type="text" id="task-description" name="description">
+                    </div>
+                    <div class="form-content">
+                        <label for="task-due">Due Date</label>
+                        <input type="date" id="task-due" name="dueDate">
+                    </div>
+                    <div class="form-content">
+                        <label for="task-priority">Priority</label>
+                        <select id="task-priority" name="priority">
+                            <option value="">Select priority</option>
+                            <option value="Low">Low</option>
+                            <option value="Medium">Medium</option>
+                            <option value="High">High</option>
+                        </select>
+                    </div>
+                    <div class="form-content">
+                        <label for="task-project">Project</label>
+                        <select id="task-project" name="projectId">
+                            <!-- render project list -->
+                        </select>
+                    </div>
+                </div>
+                <div class="project-form-buttons">
+                    <button type="button" class="cancel-btn" commandfor="task-modal" command="close">Cancel</button>
+                    <button type="submit" class="submit-btn" id="submit">Add task</button>
+                </div>
+            </form>
         </aside>
    </div>
    <dialog class="modal" id="project-modal">
@@ -79,16 +124,21 @@
                 </div>
                 <div class="form-content">
                     <label for="task-due">Due Date</label>
-                    <input type="number" id="task-due" name="dueDate">
+                    <input type="date" id="task-due" name="dueDate">
                 </div>
                 <div class="form-content">
                     <label for="task-priority">Priority</label>
-                    <input type="number" id="task-priority" name="priority">
+                    <select id="task-priority" name="priority">
+                        <option value="">Select priority</option>
+                        <option value="Low">Low</option>
+                        <option value="Medium">Medium</option>
+                        <option value="High">High</option>
+                    </select>
                 </div>
                 <div class="form-content">
                     <label for="task-project">Project</label>
                     <select id="task-project" name="projectId">
-                        <option value="" disabled selected>Select a project</option>
+                        <!-- render project list -->
                     </select>
                 </div>
             </div>
