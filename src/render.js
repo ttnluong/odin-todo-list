@@ -63,7 +63,7 @@ function createTaskCard(task, active) {
     const taskPriority = document.createElement("span");
     taskPriority.textContent = task.priority;
 
-    let taskProjectTag = "";
+    let taskProjectTag = null;
     if (active?.id === "all" || active?.id === "today") {
         taskProjectTag = document.createElement("span");
         const project = getProjectById(task.projectId);
@@ -86,7 +86,7 @@ export function displayTasks() {
 // taskform
 // ==========================================
 
-export function populateProjectSelect() {
+export function fillProjectSelect() {
   const select = document.getElementById("task-project");
   const active = getActiveFilter();
 
@@ -103,10 +103,6 @@ export function populateProjectSelect() {
   });
 }
 
-document.getElementById("add-task-btn").addEventListener("click", () => {
-  populateProjectSelect();
-});
-
 export function displayTaskEditor(taskId) {
     const form = document.getElementById("edit-task-form");
     const task = taskId ? getTaskById(taskId) : null;
@@ -120,8 +116,8 @@ export function displayTaskEditor(taskId) {
     form.classList.remove("hidden");
 
     document.getElementById("edit-task-title").value = task.title;
-    document.getElementById("edit-task-description").value = task.description;
-    document.getElementById("edit-task-due").value = task.dueDate;
+    document.getElementById("edit-task-description").value = task.description || "";
+    document.getElementById("edit-task-due").value = task.dueDate || "";
     document.getElementById("edit-task-priority").value = task.priority;
 
     const projectSelect = document.getElementById("edit-task-project");

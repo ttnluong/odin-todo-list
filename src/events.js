@@ -1,5 +1,18 @@
-import { addProjectToList, setActiveFilter, addTaskToProject, toggleTaskDone, updateTask } from "./state.js";
-import { displaySidebar, displayHeader, displayTasks, displayTaskEditor } from "./render.js";
+import { 
+    addProjectToList, 
+    setActiveFilter, 
+    addTaskToProject, 
+    toggleTaskDone, 
+    updateTask
+} from "./state.js";
+
+import { 
+    displaySidebar, 
+    displayHeader, 
+    displayTasks, 
+    displayTaskEditor, 
+    fillProjectSelect 
+} from "./render.js";
 
 export function refresh() {
   displaySidebar();
@@ -12,8 +25,8 @@ function submitProject() {
 
     projectForm.addEventListener("submit", (e) => {
         e.preventDefault();
-        const title = document.getElementById("project-title").value;
-        const description = document.getElementById("project-description").value;
+        const title = document.getElementById("project-title").value.trim();
+        const description = document.getElementById("project-description").value.trim();
         const color = document.getElementById("project-color").value;
 
         const newProject = addProjectToList(title, description, color);
@@ -37,18 +50,24 @@ function selectFilter() {
     });
 }
 
+function openTaskModal() {
+    document.getElementById("add-task-btn").addEventListener("click", () => {
+    fillProjectSelect();
+});
+}
+
 function submitTask() {
     const taskForm = document.getElementById("task-form");
 
     taskForm.addEventListener("submit", (e) => {
         e.preventDefault();
-        const title = document.getElementById("task-title").value;
-        const description = document.getElementById("task-description").value;
+        const title = document.getElementById("task-title").value.trim();
+        const description = document.getElementById("task-description").value.trim();
         const dueDate = document.getElementById("task-due").value;
         const priority = document.getElementById("task-priority").value;
-        const projectId = document.getElementById("task-project").value;
+        const projectId = document.getElementById("task-project").value || null;
 
-        const newTask = addTaskToProject(projectId, title, description, dueDate, priority);
+        addTaskToProject(projectId, title, description, dueDate, priority);
         refresh();
 
         document.getElementById("task-modal").close();
@@ -71,7 +90,6 @@ function toggleTaskCheckbox() {
 function editTask() {
   const taskList = document.getElementById("tasks-list");
   const editForm = document.getElementById("edit-task-form");
-  const aside = document.querySelector(".task-form")
 
   taskList.addEventListener("click", (e) => {
     if (e.target.classList.contains("task-checkbox")) return;
@@ -94,20 +112,21 @@ function editTask() {
     });
 
     displayTasks();
-    displayTaskEditor(); // hides form after saving
+    displayTaskEditor();
   });
 
   document.getElementById("edit-task-cancel").addEventListener("click", () => {
     editForm.reset();
-    displayTaskEditor(); // hides form on cancel
+    displayTaskEditor();
   });
-
+  
 }
 
 
 export function attachEvents() {
     submitProject();
     selectFilter();
+    openTaskModal();
     submitTask();
     toggleTaskCheckbox();
     editTask();

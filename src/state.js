@@ -3,7 +3,7 @@
 
 const views = [
     { id: "all", title: "All", description: "Every task across all projects", type: "view" },
-    { id: "today", title: "Today", description: "Task due today", type: "view" },
+    { id: "today", title: "Today", description: "Tasks due today", type: "view" },
     { id: "unassigned", title: "Unassigned", description: "Tasks with no project", type: "view"}
 ];
 
@@ -12,7 +12,7 @@ const tasks = [];
 
 let activeFilterId = "all";
 
-// sidebar
+// projects
 // ==========================================
 
 class Project {
@@ -22,22 +22,22 @@ class Project {
         this.title = title;
         this.description = description;
         this.color = color;
-    };
-};
+    }
+}
 
 export function addProjectToList(title, description, color) {
     const project = new Project(title, description, color);
     projects.push(project);
     return project;
-};
+}
 
 export function getViews() {
   return views;
-};
+}
 
 export function getProjects() {
     return projects;
-};
+}
 
 export function getProjectById(id) {
   return projects.find(project => project.id === id);
@@ -50,7 +50,7 @@ export function setActiveFilter(id) {
 export function getActiveFilter() {
     return views.find(v => v.id === activeFilterId)
         || projects.find(p => p.id === activeFilterId)
-};
+}
 
 // tasks
 // ==========================================
@@ -64,14 +64,14 @@ class Task {
         this.dueDate = dueDate;
         this.priority = priority;
         this.done = false;
-    };
-};
+    }
+}
 
 export function addTaskToProject(projectId, title, description, dueDate, priority) {
     const task = new Task(projectId, title, description, dueDate, priority);
     tasks.push(task);
     return task;
-};
+}
 
 export function getTaskById(id) {
   return tasks.find(task => task.id === id);
@@ -90,6 +90,11 @@ export function getFilteredTasks() {
 
     if (active.id === "all") return tasks;
 
+    if (active.id === "today") {
+        const todayStr = new Date().toISOString().split("T")[0];
+        return tasks.filter(task => task.dueDate === todayStr);
+    }
+
     if (active.id === "unassigned") {
         return tasks.filter(task => !task.projectId);
     }
@@ -98,7 +103,7 @@ export function getFilteredTasks() {
 }
 
 export function toggleTaskDone(taskId) {
-  const task = tasks.find(task => task.id === taskId);
+  const task = getTaskById(taskId);
   if (task) {
     task.done = !task.done;
   }
