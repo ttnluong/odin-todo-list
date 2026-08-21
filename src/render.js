@@ -3,14 +3,35 @@ import { getViews, getProjects, getActiveFilter, getFilteredTasks , getProjectBy
 // sidebar
 // ==========================================
 
+import spriteUrl from "./assets/lucide-sprite.svg";
+
+function createIcon(iconId, color) {
+    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svg.classList.add("sidebar-icon");
+
+    if (color) {
+        svg.style.color = color; // sets the `color` property that currentColor reads from
+    }
+
+    const use = document.createElementNS("http://www.w3.org/2000/svg", "use");
+    use.setAttribute("href", `${spriteUrl}#${iconId}`);
+
+    svg.appendChild(use);
+    return svg;
+}
+
 function createSidebarItem(item) {
     const listItem = document.createElement("li");
     const button = document.createElement("button");
 
     button.classList.add("sidebar-item");
     button.dataset.id = item.id;
-    button.textContent = item.title;
 
+    const icon = createIcon(item.icon, item.color);
+    const label = document.createElement("span");
+    label.textContent = item.title;
+
+    button.append(icon, label);
     listItem.append(button);
 
     return listItem;

@@ -2,9 +2,9 @@
 // ==========================================
 
 const views = [
-    { id: "all", title: "All", description: "Every task across all projects", type: "view" },
-    { id: "today", title: "Today", description: "Tasks due today", type: "view" },
-    { id: "unassigned", title: "Unassigned", description: "Tasks with no project", type: "view"}
+    { id: "all", title: "All", description: "Every task across all projects", type: "view", icon: "list-todo" },
+    { id: "today", title: "Today", description: "Tasks due today", type: "view", icon: "calendar" },
+    { id: "unassigned", title: "Unassigned", description: "Tasks with no project", type: "view", icon: "circle-question-mark"}
 ];
 
 const projects = [];
@@ -22,6 +22,7 @@ class Project {
         this.title = title;
         this.description = description;
         this.color = color;
+        this.icon = "square";
     }
 }
 

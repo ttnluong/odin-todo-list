@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg">
+  <defs>
+
+    <symbol id="list-todo" viewBox="0 0 24 24">
+  <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+    <path d="M13 5h8m-8 7h8m-8 7h8M3 17l2 2l4-4" />
+    <rect width="6" height="6" x="3" y="4" rx="1" />
+  </g>
+</symbol>
+
+<symbol id="calendar" viewBox="0 0 24 24">
+  <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+    <path d="M8 2v3m8-3v3" />
+    <rect width="18" height="18" x="3" y="3" rx="2" />
+    <path d="M3 9h18" />
+  </g>
+</symbol>
+
+<symbol id="circle-question-mark" viewBox="0 0 24 24">
+  <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+    <circle cx="12" cy="12" r="10" />
+    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3m.08 4h.01" />
+  </g>
+</symbol>
+
+<symbol id="square-plus" viewBox="0 0 24 24">
+  <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+    <rect width="18" height="18" x="3" y="3" rx="2" />
+    <path d="M8 12h8m-4-4v8" />
+  </g>
+</symbol>
+
+<symbol id="plus" viewBox="0 0 24 24">
+  <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7-7v14" />
+</symbol>
+
+<symbol id="square" viewBox="0 0 24 24">
+  <rect width="18" height="18" x="3" y="3" fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" rx="2" />
+</symbol>
+
+  </defs>
+</svg>

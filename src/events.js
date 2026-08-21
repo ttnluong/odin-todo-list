@@ -20,6 +20,19 @@ export function refresh() {
   displayTasks();
 }
 
+function selectProjectColor() {
+    const colorPicker = document.getElementById("project-color-picker");
+    
+    colorPicker.addEventListener("click", (e) => {
+    const swatch = e.target.closest(".color-swatch");
+    if (swatch) {
+        document.getElementById("project-color").value = swatch.dataset.color;
+        document.querySelectorAll(".color-swatch").forEach(s => s.classList.remove("selected"));
+        swatch.classList.add("selected");
+    }
+});
+}
+
 function submitProject() {
     const projectForm = document.getElementById("project-form");
 
@@ -124,6 +137,7 @@ function editTask() {
 
 
 export function attachEvents() {
+    selectProjectColor();
     submitProject();
     selectFilter();
     openTaskModal();
