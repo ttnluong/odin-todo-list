@@ -1,4 +1,11 @@
-import { getViews, getProjects, getActiveFilter, getFilteredTasks , getProjectById, getTaskById } from "./state.js";
+import { 
+    getViews, 
+    getProjects, 
+    getActiveFilter, 
+    getFilteredTasks , 
+    getProjectById, 
+    getTaskById 
+} from "./state.js";
 
 // sidebar
 // ==========================================
@@ -20,16 +27,18 @@ function createIcon(iconId, color) {
     return svg;
 }
 
-function createSidebarItem(item) {
+function createSidebarItem(item, activeId) {
     const listItem = document.createElement("li");
     const button = document.createElement("button");
 
     button.classList.add("sidebar-item");
     button.dataset.id = item.id;
+    button.classList.toggle("active", item.id === activeId);
 
     const icon = createIcon(item.icon, item.color);
     const label = document.createElement("span");
     label.textContent = item.title;
+    label.title = item.title;
 
     button.append(icon, label);
     listItem.append(button);
@@ -37,15 +46,16 @@ function createSidebarItem(item) {
     return listItem;
 }
 
-function displaySidebarList(container, items) {
+function displaySidebarList(container, items, activeId) {
     const list = document.querySelector(container);
     list.innerHTML = "";
-    items.forEach(item => list.appendChild(createSidebarItem(item)));
+    items.forEach(item => list.appendChild(createSidebarItem(item, activeId)));
 }
 
 export function displaySidebar() {
-    displaySidebarList(".views-list", getViews());
-    displaySidebarList(".projects-list", getProjects())
+    const active = getActiveFilter();
+    displaySidebarList(".views-list", getViews(), active?.id);
+    displaySidebarList(".projects-list", getProjects(), active?.id);
 }
 
 // header main
