@@ -14,7 +14,7 @@
 
 
     --c-bg-primary: hsl(0 0% 7%);
-    --c-bg-secondary: hsl(0 0% 10%);
+    --c-bg-secondary: hsl(0 0% 9%);
     --c-foreground: hsl(0 2% 14%);
 
     --c-text-default: var(--c-grey-100);
@@ -103,6 +103,7 @@ ul {
 }
 
 .sidebar-item {
+    position: relative;
     display: flex;
     align-items: center;
     width: 200px;
@@ -148,6 +149,21 @@ ul {
   white-space: nowrap;
 }
 
+.sidebar-more-btn {
+    margin-left: auto;
+    opacity: 0;
+    padding: 2px 8px;
+    border-radius: 4px;
+}
+
+.sidebar-item:hover .sidebar-more-btn {
+    opacity: 1;
+}
+
+.sidebar-more-btn:hover {
+    background-color: color-mix(in hsl shorter hue, var(--c-grey-600), black 12%);
+}
+
 .add-project-btn {
     display: flex;
     justify-content: center;
@@ -165,6 +181,31 @@ ul {
     stroke-linecap: round;
     stroke-linejoin: round;
     fill: none;
+}
+
+.context-menu {
+  position: fixed;
+  background: var(--c-foreground);
+  border-radius: 6px;
+  padding: 4px;
+  list-style: none;
+  z-index: 1000;
+}
+
+.context-menu.hidden {
+  display: none;
+}
+
+.context-menu button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 6px 12px;
+  font-size: 0.8125rem;
+}
+
+.context-menu button:hover {
+  background: var(--c-bg-secondary);
 }
 
 /* TASKS

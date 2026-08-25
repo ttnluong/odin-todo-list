@@ -7,6 +7,10 @@ import {
     getTaskById 
 } from "./state.js";
 
+import {
+    resetColorPicker
+} from "./events.js";
+
 // sidebar
 // ==========================================
 
@@ -29,7 +33,7 @@ function createIcon(iconId, color) {
 
 function createSidebarItem(item, activeId) {
     const listItem = document.createElement("li");
-    const button = document.createElement("button");
+    const button = document.createElement("div");
 
     button.classList.add("sidebar-item");
     button.dataset.id = item.id;
@@ -41,6 +45,15 @@ function createSidebarItem(item, activeId) {
     label.title = item.title;
 
     button.append(icon, label);
+
+    if (item.type === "project") {
+        const moreBtn = document.createElement("button");
+        moreBtn.className = "sidebar-more-btn";
+        moreBtn.dataset.id = item.id;
+        moreBtn.textContent = "⋮";
+        button.append(moreBtn);
+    }
+
     listItem.append(button);
 
     return listItem;
@@ -162,4 +175,31 @@ export function displayTaskEditor(taskId) {
     });
 
     form.dataset.editingId = taskId;
+}
+
+// modals
+// ==========================================
+
+export function openProjectModalForEdit(projectId) {
+  const project = getProjectById(projectId);
+  if (!project) return;
+
+  document.getElementById("project-modal-title").textContent = "Edit project";
+  document.getElementById("project-title").value = project.title;
+  document.getElementById("project-description").value = project.description || "";
+  document.getElementById("project-color").value = project.color;
+
+  document.querySelectorAll(".color-swatch").forEach(swatch => {
+    swatch.classList.toggle("selected", swatch.dataset.color === project.color);
+  });
+
+  document.getElementById("project-form").dataset.editingId = projectId;
+  document.getElementById("project-modal").showModal();
+}
+
+export function openProjectModalForAdd() {
+  document.getElementById("project-modal-title").textContent = "Add project";
+  document.getElementById("project-form").reset();
+  document.getElementById("project-form").dataset.editingId = "";
+  resetColorPicker();
 }

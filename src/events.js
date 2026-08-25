@@ -11,13 +11,54 @@ import {
     displayHeader, 
     displayTasks, 
     displayTaskEditor, 
-    fillProjectSelect 
+    fillProjectSelect, 
+    openProjectModalForAdd,
+    openProjectModalForEdit
 } from "./render.js";
 
 export function refresh() {
   displaySidebar();
   displayHeader();
   displayTasks();
+}
+
+function openAddProjectModal() {
+  document.getElementById("add-project-btn").addEventListener("click", () => {
+    openProjectModalForAdd();
+  });
+}
+
+function projectContextMenu() {
+  const sidebar = document.getElementById("sidebar");
+  const contextMenu = document.getElementById("project-context-menu");
+  let targetProjectId = null;
+
+  sidebar.addEventListener("click", (e) => {
+    const moreBtn = e.target.closest(".sidebar-more-btn");
+    if (!moreBtn) return;
+
+    e.stopPropagation();
+    targetProjectId = moreBtn.dataset.id;
+
+    const rect = moreBtn.getBoundingClientRect();
+    contextMenu.style.top = `${rect.bottom + 4}px`;
+    contextMenu.style.left = `${rect.left}px`;
+    contextMenu.classList.remove("hidden");
+  });
+
+  document.getElementById("context-edit-btn").addEventListener("click", () => {
+    contextMenu.classList.add("hidden");
+    openProjectModalForEdit(targetProjectId);
+  });
+
+  document.getElementById("context-delete-btn").addEventListener("click", () => {
+    contextMenu.classList.add("hidden");
+    document.getElementById("delete-project-modal").showModal();
+  });
+
+  document.addEventListener("click", () => {
+    contextMenu.classList.add("hidden");
+  });
 }
 
 function selectProjectColor() {
@@ -33,7 +74,7 @@ function selectProjectColor() {
 });
 }
 
-function resetColorPicker() {
+export function resetColorPicker() {
   const defaultSwatch = document.querySelector(".color-swatch");
   document.getElementById("project-color").value = defaultSwatch.dataset.color;
 
@@ -50,10 +91,16 @@ function submitProject() {
         const description = document.getElementById("project-description").value.trim();
         const color = document.getElementById("project-color").value;
 
-        const newProject = addProjectToList(title, description, color);
-        setActiveFilter(newProject.id);
-        refresh();
+        const editingId = projectForm.dataset.editingId;
 
+        if (editingId) {
+            updateProject(editingId, { title, description, color });
+        } else {
+            const newProject = addProjectToList(title, description, color);
+            setActiveFilter(newProject.id);
+        }
+
+        refresh();
         document.getElementById("project-modal").close();
         resetColorPicker();
     });
@@ -149,11 +196,11 @@ function editTask() {
     editForm.reset();
     displayTaskEditor();
   });
-  
 }
 
-
 export function attachEvents() {
+    openAddProjectModal();
+    projectContextMenu();
     selectProjectColor();
     submitProject();
     resetProjectModal();

@@ -123,7 +123,7 @@
     <dialog class="modal" id="task-modal">
         <form id="task-form">
             <div class="form-wrapper">
-                <h2>Add task</h2>
+                <h2 id="project-modal-title">Add task</h2>
                 <hr>
                 <div class="form-content">
                     <label for="task-title">Title *</label>
@@ -155,10 +155,14 @@
             </div>
             <div class="project-form-buttons">
                 <button type="button" class="cancel-btn" commandfor="task-modal" command="close">Cancel</button>
-                <button type="submit" class="submit-btn" id="submit">Add task</button>
+                <button type="submit" class="submit-btn" id="submit">Save</button>
             </div>
         </form>
     </dialog>
+    <ul class="context-menu hidden" id="project-context-menu">
+        <li><button type="button" id="context-edit-btn">Edit</button></li>
+        <li><button type="button" id="context-delete-btn">Delete</button></li>
+    </ul>
 </body>
 </html>
 

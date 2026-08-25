@@ -32,6 +32,14 @@ export function addProjectToList(title, description, color) {
     return project;
 }
 
+export function updateProject(id, updates) {
+  const project = getProjectById(id);
+  if (project) {
+    Object.assign(project, updates);
+  }
+  return project;
+}
+
 export function getViews() {
   return views;
 }
