@@ -27,10 +27,18 @@ function selectProjectColor() {
     const swatch = e.target.closest(".color-swatch");
     if (swatch) {
         document.getElementById("project-color").value = swatch.dataset.color;
-        document.querySelectorAll(".color-swatch").forEach(s => s.classList.remove("selected"));
+        document.querySelectorAll(".color-swatch").forEach(swatch => swatch.classList.remove("selected"));
         swatch.classList.add("selected");
     }
 });
+}
+
+function resetColorPicker() {
+  const defaultSwatch = document.querySelector(".color-swatch");
+  document.getElementById("project-color").value = defaultSwatch.dataset.color;
+
+  document.querySelectorAll(".color-swatch").forEach(swatch => swatch.classList.remove("selected"));
+  defaultSwatch.classList.add("selected");
 }
 
 function submitProject() {
@@ -47,8 +55,17 @@ function submitProject() {
         refresh();
 
         document.getElementById("project-modal").close();
-        projectForm.reset();
+        resetColorPicker();
     });
+}
+
+function resetProjectModal() {
+  const modal = document.getElementById("project-modal");
+
+  modal.addEventListener("close", () => {
+    document.getElementById("project-form").reset();
+    resetColorPicker();
+  });
 }
 
 function selectFilter() {
@@ -139,6 +156,7 @@ function editTask() {
 export function attachEvents() {
     selectProjectColor();
     submitProject();
+    resetProjectModal();
     selectFilter();
     openTaskModal();
     submitTask();

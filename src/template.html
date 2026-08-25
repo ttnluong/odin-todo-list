@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:400,500,600;">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600;">
     <title>To Do List</title>
 </head>
 <body>
@@ -89,14 +89,13 @@
         <form id="project-form">
             <div class="form-wrapper">
                 <h2>Add project</h2>
-                <hr>
                 <div class="form-content">
                     <label for="project-title">Title *</label>
                     <input type="text" id="project-title" name="title" required>
                 </div>
                 <div class="form-content">
                     <label for="project-description">Description</label>
-                    <input type="text" id="project-description" name="description">
+                    <textarea rows="6" id="project-description" name="description"></textarea>
                 </div>
                 <div class="form-content">
                     <label for="project-color">Choose a color</label>
@@ -115,7 +114,7 @@
                     <input type="hidden" id="project-color" value="#878282">
                 </div>
             </div>
-            <div class="project-form-buttons">
+            <div class="project-form-btns">
                 <button type="button" class="cancel-btn" commandfor="project-modal" command="close">Cancel</button>
                 <button type="submit" class="submit-btn" id="submit">Add project</button>
             </div>

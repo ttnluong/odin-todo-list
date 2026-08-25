@@ -4,12 +4,13 @@
 :root { 
     --c-red: hsl(357 53% 60%);
 
-    --c-grey-100: hsl(0 4% 88%); /* 13.1 */
+    --c-grey-100: hsl(0 4% 88%); /* 13.1 E2DFDF*/
     --c-grey-200: hsl(0 4% 77%); /* 9.9 */
     --c-grey-300: hsl(0 4% 64%); /* 6.4 */
-    --c-grey-400: hsl(0 2% 52%); /* 4.6 */
+    --c-grey-400: hsl(0 2% 52%); /* 4.6 #878282*/
     --c-grey-500: hsl(0 2% 40%); /* 2.97 */
-    --c-grey-600: hsl(0 2% 26%); 
+    --c-grey-600: hsl(0 2% 26%); /* #444141 */
+    --c-grey-700: hsl(0 2% 18%); /* #444141 */
 
 
     --c-bg-primary: hsl(0 0% 7%);
@@ -40,7 +41,7 @@ ul, ol, li {
     list-style: none;
 }
 
-input, button {
+input, textarea, button {
     font: inherit;
     color: inherit;
     background: none;
@@ -58,6 +59,7 @@ hr {
 dialog {
     font: inherit;
     color: inherit;
+    border: none;
 }
 
 /* BASE
@@ -65,7 +67,7 @@ dialog {
 
 body {
     height: 100vh;
-    padding: 20px 0px 20px 0px;
+    padding: 20px 0px;
     font-family: "Inter";
     color: var(--c-text-default);
     background-color: var(--c-bg-primary);
@@ -91,7 +93,7 @@ dialog {
     display: grid;
     grid-auto-rows: min-content;
     gap: 40px;
-    padding: 0px 20px 0px 20px;
+    padding: 0px 20px;
     border-right: 1px solid var(--c-grey-500);
 }
 
@@ -173,7 +175,7 @@ main {
     display: grid;
     grid-template-rows: auto 1fr;
     gap: 20px;
-    padding: 0px 20px 0px 20px;
+    padding: 0px 20px;
 }
 
 main header {
@@ -235,21 +237,113 @@ main header {
 }
 
 
-/* MODALS
+/* MODALS/FORMS
 ====================================================== */
+
+.modal {
+    position: fixed;
+    margin: auto;
+    border-radius: 6px;
+}
+
+form {
+    width: 400px;
+    padding: 20px;
+    background-color: var(--c-foreground)
+}
+
+.form-wrapper {
+    display: grid;
+    gap: 16px;
+}
+
+.form-wrapper h2 {
+    font-size: 1rem;
+}
+
+.form-content {
+    display: grid;
+    gap: 6px;
+    font-size: 0.875rem;
+}
+
+input, textarea {
+    padding: 6px 10px;
+    border: 1px solid var(--c-grey-600);
+    background: linear-gradient(to bottom, #00000005, transparent);
+    box-shadow: inset 0px 3px 3px -1px #0000000a;
+    transition: border 0.15s ease-in-out;
+    resize: none;
+    font-weight: 300;
+}
+
+input:hover, textarea:hover {
+    border: 1px solid var(--c-grey-500);
+}
+
+input:focus, textarea:focus {
+    outline: none;
+    border: 1px solid var(--c-grey-500)
+}
+
+#project-description {
+    height: 80px;
+}
 
 .color-picker {
     display: flex;
-    gap: 8px;
+    justify-content: space-between;
+    margin-top: 4px;
 }
 
 .color-swatch {
     width: 20px;
     height: 20px;
     border-radius: 2px;
+    outline: 3px solid var(--c-grey-600);
+    outline-offset: -5px;
+    outline-color: transparent;
+    transition: outline-color 0.15s ease;
 }
 
 .color-swatch.selected {
-  outline: 1px solid #f2f2f2;
-  outline-offset: 2px;
+    outline-color: var(--c-grey-600);
+}
+
+.project-form-btns {
+    display: flex;
+    justify-content: end;
+    gap: 12px;
+    margin-top: 28px;
+}
+
+.project-form-btns button {
+    padding: 6px 10px;
+    border-radius: 4px;
+    font-size: 0.875rem;
+    transition: transform 0.15s ease;
+}
+
+.cancel-btn {
+    border: 1px solid var(--c-grey-400);
+    color: var(--c-grey-400);
+}
+
+.cancel-btn:hover {
+    background-color: color-mix(in hsl shorter hue, var(--c-foreground), white 2%);
+}
+
+.submit-btn {
+    background-color: var(--c-grey-100);
+    color: var(--c-grey-600);
+    font-weight: 500;
+}
+
+.submit-btn:hover {
+    background-color: color-mix(in hsl shorter hue, var(--c-grey-100), black 8%);;
+}
+
+.cancel-btn:active,
+.submit-btn:active {
+    transform: scale(0.97);
 }
