@@ -46,7 +46,7 @@
             </section>
         </main>
         <aside class="task-form">
-            <form id="edit-task-form" class="hidden">
+            <form class="form-sidebar hidden" id="edit-task-form">
                 <div class="form-wrapper">
                     <h2>Edit details</h2>
                     <hr>
@@ -78,17 +78,17 @@
                         </select>
                     </div>
                 </div>
-                <div class="project-form-buttons">
-                    <button type="button" class="cancel-btn" id="edit-task-cancel">Cancel</button>
-                    <button type="submit" class="submit-btn" id="submit">Add task</button>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-neutral" id="edit-task-cancel">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="submit">Add task</button>
                 </div>
             </form>
         </aside>
    </div>
    <dialog class="modal" id="project-modal">
-        <form id="project-form">
+        <form class="form-modal" id="project-form">
             <div class="form-wrapper">
-                <h2>Add project</h2>
+                <h2 id="project-modal-title">Add project</h2>
                 <div class="form-content">
                     <label for="project-title">Title *</label>
                     <input type="text" id="project-title" name="title" required>
@@ -114,14 +114,14 @@
                     <input type="hidden" id="project-color" value="#878282">
                 </div>
             </div>
-            <div class="project-form-btns">
-                <button type="button" class="cancel-btn" commandfor="project-modal" command="close">Cancel</button>
-                <button type="submit" class="submit-btn" id="submit">Add project</button>
+            <div class="modal-actions">
+                <button type="button" class="btn btn-neutral" commandfor="project-modal" command="close">Cancel</button>
+                <button type="submit" class="btn btn-primary" id="submit">Add project</button>
             </div>
         </form>
     </dialog>
     <dialog class="modal" id="task-modal">
-        <form id="task-form">
+        <form class="form-modal" id="task-form">
             <div class="form-wrapper">
                 <h2 id="project-modal-title">Add task</h2>
                 <hr>
@@ -153,15 +153,27 @@
                     </select>
                 </div>
             </div>
-            <div class="project-form-buttons">
-                <button type="button" class="cancel-btn" commandfor="task-modal" command="close">Cancel</button>
-                <button type="submit" class="submit-btn" id="submit">Save</button>
+            <div class="modal-actions">
+                <button type="button" class="btn btn-neutral" commandfor="task-modal" command="close">Cancel</button>
+                <button type="submit" class="btn btn-primary" id="submit">Save</button>
             </div>
         </form>
     </dialog>
+    <dialog class="modal" id="project-delete-modal">
+        <div class="delete-modal">
+            <div class="modal-wrapper">
+                <h2>Delete project</h2>
+                <p id="project-delete-msg">Are you sure you want to delete this project? This will also delete all of its tasks.</p>
+                <div class="modal-actions">
+                    <button class="btn btn-neutral" commandfor="project-delete-modal" command="close">Cancel</button>
+                    <button class="btn btn-danger" id="project-delete-btn">Delete project</button>
+                </div>
+            </div>
+        </div>
+    </dialog>
     <ul class="context-menu hidden" id="project-context-menu">
-        <li><button type="button" id="context-edit-btn">Edit</button></li>
-        <li><button type="button" id="context-delete-btn">Delete</button></li>
+        <li><button type="button" id="context-edit-btn">Edit project</button></li>
+        <li><button type="button" id="context-delete-btn">Delete project</button></li>
     </ul>
 </body>
 </html>

@@ -1,6 +1,8 @@
 import { 
     addProjectToList, 
+    getActiveFilter,
     setActiveFilter, 
+    deleteProject,
     addTaskToProject, 
     toggleTaskDone, 
     updateTask
@@ -13,7 +15,8 @@ import {
     displayTaskEditor, 
     fillProjectSelect, 
     openProjectModalForAdd,
-    openProjectModalForEdit
+    openProjectModalForEdit,
+    displayDeleteProjectModal
 } from "./render.js";
 
 export function refresh() {
@@ -32,6 +35,7 @@ function projectContextMenu() {
   const sidebar = document.getElementById("sidebar");
   const contextMenu = document.getElementById("project-context-menu");
   let targetProjectId = null;
+  let activeMoreBtn = null;
 
   sidebar.addEventListener("click", (e) => {
     const moreBtn = e.target.closest(".sidebar-more-btn");
@@ -39,6 +43,8 @@ function projectContextMenu() {
 
     e.stopPropagation();
     targetProjectId = moreBtn.dataset.id;
+    activeMoreBtn = moreBtn;
+    activeMoreBtn.classList.add("menu-open");
 
     const rect = moreBtn.getBoundingClientRect();
     contextMenu.style.top = `${rect.bottom + 4}px`;
@@ -46,18 +52,26 @@ function projectContextMenu() {
     contextMenu.classList.remove("hidden");
   });
 
-  document.getElementById("context-edit-btn").addEventListener("click", () => {
+  function closeMenu() {
     contextMenu.classList.add("hidden");
+    if (activeMoreBtn) {
+      activeMoreBtn.classList.remove("menu-open"); // let it fade back to hover-only
+      activeMoreBtn = null;
+    }
+  }
+
+  document.getElementById("context-edit-btn").addEventListener("click", () => {
+    closeMenu();
     openProjectModalForEdit(targetProjectId);
   });
 
   document.getElementById("context-delete-btn").addEventListener("click", () => {
-    contextMenu.classList.add("hidden");
-    document.getElementById("delete-project-modal").showModal();
+    closeMenu();
+    displayDeleteProjectModal(targetProjectId);
   });
 
   document.addEventListener("click", () => {
-    contextMenu.classList.add("hidden");
+    closeMenu();
   });
 }
 
@@ -115,17 +129,35 @@ function resetProjectModal() {
   });
 }
 
+function deleteProjectEvents() {
+    const projectDeleteBtn = document.getElementById("project-delete-btn");
+  
+    projectDeleteBtn.addEventListener("click", () => {
+    const id = projectDeleteBtn.dataset.deletingId;
+
+    const active = getActiveFilter();
+    if (active?.id === id) {
+      setActiveFilter("all");
+    }
+
+    deleteProject(id);
+    refresh();
+    document.getElementById("project-delete-modal").close();
+  });
+}
+
 function selectFilter() {
     const sidebar = document.getElementById("sidebar");
 
     sidebar.addEventListener("click", (e) => {
         const btn = e.target.closest(".sidebar-item");
-        if (btn) {
+        if (btn && !e.target.closest(".sidebar-more-btn")) {
             setActiveFilter(btn.dataset.id);
             refresh();
         }
     });
 }
+
 
 function openTaskModal() {
     document.getElementById("add-task-btn").addEventListener("click", () => {
@@ -204,6 +236,7 @@ export function attachEvents() {
     selectProjectColor();
     submitProject();
     resetProjectModal();
+    deleteProjectEvents();
     selectFilter();
     openTaskModal();
     submitTask();

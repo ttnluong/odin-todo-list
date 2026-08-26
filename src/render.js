@@ -203,3 +203,14 @@ export function openProjectModalForAdd() {
   document.getElementById("project-form").dataset.editingId = "";
   resetColorPicker();
 }
+
+export function displayDeleteProjectModal(projectId) {
+  const project = getProjectById(projectId);
+  if (!project) return;
+
+  document.getElementById("project-delete-msg").textContent =
+    `Are you sure you want to delete "${project.title}"? This will also delete all of its tasks.`;
+
+  document.getElementById("project-delete-btn").dataset.deletingId = projectId;
+  document.getElementById("project-delete-modal").showModal();
+}

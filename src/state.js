@@ -58,7 +58,20 @@ export function setActiveFilter(id) {
 
 export function getActiveFilter() {
     return views.find(v => v.id === activeFilterId)
-        || projects.find(p => p.id === activeFilterId)
+        || projects.find(project => project.id === activeFilterId)
+}
+
+export function deleteProject(id) {
+  const index = projects.findIndex(project => project.id === id);
+  if (index === -1) return;
+
+  projects.splice(index, 1);
+
+  for (let i = tasks.length - 1; i >= 0; i--) {
+    if (tasks[i].projectId === id) {
+      tasks.splice(i, 1);
+    }
+  }
 }
 
 // tasks

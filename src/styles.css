@@ -112,7 +112,8 @@ ul {
     color: var(--c-text-muted);
 }
 
-.sidebar-item:hover {
+.sidebar-item:hover,
+.sidebar-item:has(.sidebar-more-btn.menu-open):not(.active) {
     border-radius: 6px;
     background-color: var(--c-foreground);
 }
@@ -156,11 +157,13 @@ ul {
     border-radius: 4px;
 }
 
-.sidebar-item:hover .sidebar-more-btn {
+.sidebar-item:hover .sidebar-more-btn,
+.sidebar-more-btn.menu-open {
     opacity: 1;
 }
 
-.sidebar-more-btn:hover {
+.sidebar-more-btn:hover,
+.sidebar-more-btn.menu-open {
     background-color: color-mix(in hsl shorter hue, var(--c-grey-600), black 12%);
 }
 
@@ -170,17 +173,26 @@ ul {
     align-items: center;
     padding: 8px;
     border-radius: 6px;
-    background-color: var(--c-foreground);
+    border: 1px solid var(--c-grey-500);
+    transition: transform 0.1s ease;
 }
 
 .add-project-icon {
     width: 20px;
     height: 20px;
-    stroke: currentColor;
+    color: var(--c-grey-300);
     stroke-width: 1.5;
     stroke-linecap: round;
     stroke-linejoin: round;
     fill: none;
+}
+
+.add-project-btn:hover {
+    background-color: var(--c-bg-secondary);
+}
+
+.add-project-btn:active {
+    transform: scale(0.99);
 }
 
 .context-menu {
@@ -285,30 +297,32 @@ main header {
     position: fixed;
     margin: auto;
     border-radius: 6px;
+    font-size: 0.875rem;
 }
 
-form {
+.form-modal,
+.delete-modal {
     width: 400px;
     padding: 20px;
     background-color: var(--c-foreground)
 }
 
-.form-wrapper {
+.form-wrapper,
+.modal-wrapper {
     display: grid;
     gap: 16px;
 }
 
-.form-wrapper h2 {
+h2 {
     font-size: 1rem;
 }
 
 .form-content {
     display: grid;
     gap: 6px;
-    font-size: 0.875rem;
 }
 
-input, textarea {
+input, textarea, select {
     padding: 6px 10px;
     border: 1px solid var(--c-grey-600);
     background: linear-gradient(to bottom, #00000005, transparent);
@@ -318,11 +332,11 @@ input, textarea {
     font-weight: 300;
 }
 
-input:hover, textarea:hover {
+input:hover, textarea:hover, select:hover {
     border: 1px solid var(--c-grey-500);
 }
 
-input:focus, textarea:focus {
+input:focus, textarea:focus, select:focus {
     outline: none;
     border: 1px solid var(--c-grey-500)
 }
@@ -351,40 +365,50 @@ input:focus, textarea:focus {
     outline-color: var(--c-grey-600);
 }
 
-.project-form-btns {
+.form-actions,
+.modal-actions {
     display: flex;
     justify-content: end;
     gap: 12px;
     margin-top: 28px;
 }
 
-.project-form-btns button {
-    padding: 6px 10px;
+.btn {
+    padding: 6px 12px;
     border-radius: 4px;
     font-size: 0.875rem;
     transition: transform 0.15s ease;
 }
 
-.cancel-btn {
-    border: 1px solid var(--c-grey-400);
-    color: var(--c-grey-400);
+.btn:active {
+    transform: scale(0.97);
 }
 
-.cancel-btn:hover {
-    background-color: color-mix(in hsl shorter hue, var(--c-foreground), white 2%);
-}
-
-.submit-btn {
+.btn-primary {
     background-color: var(--c-grey-100);
     color: var(--c-grey-600);
     font-weight: 500;
 }
 
-.submit-btn:hover {
+.btn-primary:hover {
     background-color: color-mix(in hsl shorter hue, var(--c-grey-100), black 8%);;
 }
 
-.cancel-btn:active,
-.submit-btn:active {
-    transform: scale(0.97);
+.btn-neutral {
+    border: 1px solid var(--c-grey-400);
+    color: var(--c-grey-400);
+}
+
+.btn-neutral:hover {
+    background-color: color-mix(in hsl shorter hue, var(--c-foreground), white 2%);
+}
+
+.btn-danger {
+    background-color: var(--c-red);
+    color: var(--c-grey-700);
+    font-weight: 500;
+}
+
+.btn-danger:hover {
+    background-color: color-mix(in hsl shorter hue, var(--c-red), black 8%);
 }
