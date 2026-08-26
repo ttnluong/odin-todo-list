@@ -247,6 +247,10 @@ main header {
     font-size: 26px;
 }
 
+.header-top p {
+    color: var(--c-grey-400);
+}
+
 .header-top button {
     grid-column: 2;
     grid-row: 1;
@@ -256,7 +260,10 @@ main header {
 .header-content {
     display: grid;
     grid-template-columns: 0.1fr 1fr 0.2fr 0.2fr 0.2fr;
-    border-bottom: 1px solid var(--c-grey-faint);
+    padding-bottom: 4px;
+    border-bottom: 1px solid var(--c-grey-600);
+    font-size: 0.875rem;
+    color: var(--c-grey-400);
 }
 
 .card-task {
@@ -373,6 +380,9 @@ input:focus, textarea:focus, select:focus {
     margin-top: 28px;
 }
 
+/* ACTION BUTTONS
+====================================================== */
+
 .btn {
     padding: 6px 12px;
     border-radius: 4px;
@@ -392,6 +402,10 @@ input:focus, textarea:focus, select:focus {
 
 .btn-primary:hover {
     background-color: color-mix(in hsl shorter hue, var(--c-grey-100), black 8%);;
+}
+
+.btn-primary.color {
+    background-color: #94C748;
 }
 
 .btn-neutral {
