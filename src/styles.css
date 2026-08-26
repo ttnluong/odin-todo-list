@@ -220,7 +220,7 @@ ul {
   background: var(--c-bg-secondary);
 }
 
-/* TASKS
+/* MAIN HEADER
 ====================================================== */
 
 main {
@@ -259,27 +259,71 @@ main header {
 
 .header-content {
     display: grid;
-    grid-template-columns: 0.1fr 1fr 0.2fr 0.2fr 0.2fr;
+    grid-template-columns: 0.1fr 1fr 0.3fr 0.2fr 0.2fr;
     padding-bottom: 4px;
     border-bottom: 1px solid var(--c-grey-600);
     font-size: 0.875rem;
     color: var(--c-grey-400);
 }
 
+/* TASKS LIST
+====================================================== */
+
 .card-task {
     display: grid;
-    grid-template-columns: 0.1fr 1fr 0.2fr 0.2fr 0.2fr;
+    grid-template-columns: 0.1fr 1fr 0.3fr 0.2fr 0.2fr;
     align-items: center;
-    background-color: darkcyan;
+    padding: 14px 0px;
+    border-bottom: 1px solid var(--c-grey-700);
+}
+
+.task-checkbox {
+    justify-self: center;
+    position: relative;
+    box-sizing: border-box;
+    appearance: none;
+    padding: 0;
+    width: 20px;
+    height: 20px;
+    border: 1px solid var(--c-grey-400);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.task-checkbox:hover {
+    border-color: var(--c-grey-300);
+}
+
+.task-checkbox:checked {
+    background-color: #94C748;
+    border-color: #94C748;
+}
+
+.task-checkbox:checked::after {
+    content: "";
+    position: absolute;
+    left: 5px;
+    top: 1px;
+    width: 8px;
+    height: 12px;
+    border: 1px solid var(--c-grey-600);
+    border-width: 0px 2px 2px 0px;
+    transform: rotate(45deg);
 }
 
 .card-task h2 {
-    font-size: 16px;
+    font-size: 1rem;
 }
 
 .card-task h2.done {
   text-decoration: line-through;
-  color: #888;
+  color: var(--c-grey-400);
+}
+
+.card-task span {
+    font-size: 0.875rem;
+    color: var(--c-grey-400);
 }
 
 
@@ -426,3 +470,4 @@ input:focus, textarea:focus, select:focus {
 .btn-danger:hover {
     background-color: color-mix(in hsl shorter hue, var(--c-red), black 8%);
 }
+
