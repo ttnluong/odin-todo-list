@@ -1,3 +1,13 @@
+@font-face {
+    font-family: "Inter Variable";
+    src: url("./assets/Inter-Variable.woff2") format("woff2-variations"),
+         url("./assets/Inter-Variable.woff") format("woff-variations"),
+         url("./assets/Inter-Variable.ttf") format("truetype");
+    font-weight: 100 900;
+    font-stretch: 50% 150%;
+    font-display: swap;
+}
+
 /* VARIABLES
 ====================================================== */
 
@@ -68,7 +78,8 @@ dialog {
 body {
     height: 100vh;
     padding: 20px 0px;
-    font-family: "Inter";
+    font-family: "Inter Variable";
+    font-weight: 350;
     color: var(--c-text-default);
     background-color: var(--c-bg-primary);
 }
@@ -245,6 +256,7 @@ main header {
 
 .header-top h1 {
     font-size: 26px;
+    font-weight: 500;
 }
 
 .header-top p {
@@ -314,6 +326,7 @@ main header {
 
 .card-task h2 {
     font-size: 1rem;
+    font-weight: 350;
 }
 
 .card-task h2.done {
