@@ -29,7 +29,7 @@
 
     --c-text-default: var(--c-grey-100);
     --c-text-muted: var(--c-grey-200);
-    --c-text-faint: var(--c-grey-400);
+    --c-text-faint: var(--c-grey-500);
 }
 
 /* NORMALISE
@@ -148,14 +148,16 @@ ul {
 }
 
 .sidebar-projects h3 {
-    font-size: 0.75rem;
+    font-size: 0.8125rem;
     color: var(--c-text-faint);
 }
 
 .sidebar-label {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
-    white-space: nowrap;
 }
 
 .sidebar-end-slot{
@@ -270,10 +272,20 @@ main header {
 }
 
 main header h1 {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
     font-size: 26px;
     font-weight: 500;
 }
 main header p {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    line-height: 1.5;
+    min-height: calc(1.5em * 3);
     color: var(--c-grey-400);
 }
 
@@ -353,8 +365,9 @@ main header button {
 }
 
 .card-task h2 {
-    font-size: 0.875rem;
+    font-size: 1rem;
     font-weight: 350;
+    line-height: 1.5;
 }
 
 .card-task h2.done {
