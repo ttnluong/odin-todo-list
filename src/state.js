@@ -107,21 +107,25 @@ export function updateTask(id, updates) {
   return task;
 }
 
-export function getFilteredTasks() {
-    const active = getActiveFilter();
+export function getFilteredTasks(filterId) {
+    const id = filterId ?? getActiveFilter()?.id;
 
-    if (active.id === "all") return tasks;
+    if (id === "all") return tasks;
 
-    if (active.id === "today") {
+    if (id === "today") {
         const todayStr = new Date().toISOString().split("T")[0];
         return tasks.filter(task => task.dueDate === todayStr);
     }
 
-    if (active.id === "unassigned") {
+    if (id === "unassigned") {
         return tasks.filter(task => !task.projectId);
     }
 
-    return tasks.filter(task => task.projectId === active.id);
+    return tasks.filter(task => task.projectId === id);
+}
+
+export function getTaskCountPerFilter(filterId) {
+    return getFilteredTasks(filterId).filter(task => !task.done).length;
 }
 
 export function toggleTaskDone(taskId) {

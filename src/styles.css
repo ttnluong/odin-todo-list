@@ -51,7 +51,7 @@ ul, ol, li {
     list-style: none;
 }
 
-input, textarea, button {
+input, textarea, button, select {
     font: inherit;
     color: inherit;
     background: none;
@@ -77,7 +77,6 @@ dialog {
 
 body {
     height: 100vh;
-    padding: 20px 0px;
     font-family: "Inter Variable";
     font-weight: 350;
     color: var(--c-text-default);
@@ -104,8 +103,8 @@ dialog {
     display: grid;
     grid-auto-rows: min-content;
     gap: 40px;
-    padding: 0px 20px;
-    border-right: 1px solid var(--c-grey-500);
+    padding: 20px 20px;
+    border-right: 1px solid var(--c-grey-700);
 }
 
 ul {
@@ -114,7 +113,6 @@ ul {
 }
 
 .sidebar-item {
-    position: relative;
     display: flex;
     align-items: center;
     width: 200px;
@@ -150,22 +148,44 @@ ul {
 }
 
 .sidebar-projects h3 {
-    padding-left: 0px;
     font-size: 0.75rem;
     color: var(--c-text-faint);
 }
 
-.sidebar-item span {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+.sidebar-label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.sidebar-end-slot{
+    margin-left: auto;
+    display: grid;
+    grid-template-areas: "stack";
+    align-items: center;
+    justify-items: center;
+    min-width: 20px;
+}
+
+.sidebar-count,
+.sidebar-more-btn {
+    grid-area: stack;
+}
+
+.sidebar-count {
+    font-size: 0.75rem;
+    color: var(--c-grey-200);
 }
 
 .sidebar-more-btn {
-    margin-left: auto;
     opacity: 0;
     padding: 2px 8px;
     border-radius: 4px;
+}
+
+.sidebar-item:has(.sidebar-more-btn):hover .sidebar-count,
+.sidebar-item:has(.sidebar-more-btn.menu-open) .sidebar-count {
+    opacity: 0;
 }
 
 .sidebar-item:hover .sidebar-more-btn,
@@ -231,7 +251,7 @@ ul {
   background: var(--c-bg-secondary);
 }
 
-/* MAIN HEADER
+/* MAIN
 ====================================================== */
 
 main {
@@ -239,43 +259,51 @@ main {
     display: grid;
     grid-template-rows: auto 1fr;
     gap: 20px;
-    padding: 0px 20px;
+    padding: 20px 20px;
+    background-color: var(--c-bg-secondary);
 }
 
 main header {
-    display: grid;
-    grid-template-rows: auto auto;
-    gap: 60px;
-}
-
-.header-top {
     display: grid;
     grid-template: auto auto / 1fr auto;
     gap: 8px;
 }
 
-.header-top h1 {
+main header h1 {
     font-size: 26px;
     font-weight: 500;
 }
-
-.header-top p {
+main header p {
     color: var(--c-grey-400);
 }
 
-.header-top button {
+main header button {
     grid-column: 2;
     grid-row: 1;
     width: 96px;
 }
 
-.header-content {
+.task-list-section {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.task-list-header {
     display: grid;
-    grid-template-columns: 0.1fr 1fr 0.3fr 0.2fr 0.2fr;
+    grid-template: auto / 0.1fr 1fr 0.35fr 0.25fr 0.25fr;
     padding-bottom: 4px;
     border-bottom: 1px solid var(--c-grey-600);
     font-size: 0.875rem;
     color: var(--c-grey-400);
+}
+
+.header-project {
+    visibility: visible;
+}
+
+.task-list-header:not(.show-project) .header-project {
+  visibility: hidden;
 }
 
 /* TASKS LIST
@@ -283,7 +311,7 @@ main header {
 
 .card-task {
     display: grid;
-    grid-template-columns: 0.1fr 1fr 0.3fr 0.2fr 0.2fr;
+    grid-template-columns: 0.1fr 1fr 0.35fr 0.25fr 0.25fr;
     align-items: center;
     padding: 14px 0px;
     border-bottom: 1px solid var(--c-grey-700);
@@ -325,7 +353,7 @@ main header {
 }
 
 .card-task h2 {
-    font-size: 1rem;
+    font-size: 0.875rem;
     font-weight: 350;
 }
 
@@ -346,7 +374,9 @@ main header {
 .task-form {
     grid-area: form;
     width: 400px;
-    background-color: rgb(191, 212, 217);
+    padding: 20px 20px;
+    border-left: 1px solid var(--c-grey-700);
+    font-size: 0.875rem;
 }
 
 .hidden {
@@ -394,6 +424,11 @@ input, textarea, select {
     transition: border 0.15s ease-in-out;
     resize: none;
     font-weight: 300;
+    color: var(--c-grey-300);
+}
+
+textarea {
+    height: 80px;
 }
 
 input:hover, textarea:hover, select:hover {
@@ -403,10 +438,6 @@ input:hover, textarea:hover, select:hover {
 input:focus, textarea:focus, select:focus {
     outline: none;
     border: 1px solid var(--c-grey-500)
-}
-
-#project-description {
-    height: 80px;
 }
 
 .color-picker {

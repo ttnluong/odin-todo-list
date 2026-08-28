@@ -4,7 +4,8 @@ import {
     getActiveFilter, 
     getFilteredTasks , 
     getProjectById, 
-    getTaskById 
+    getTaskById,
+    getTaskCountPerFilter
 } from "./state.js";
 
 import {
@@ -41,19 +42,32 @@ function createSidebarItem(item, activeId) {
 
     const icon = createIcon(item.icon, item.color);
     const label = document.createElement("span");
+    label.classList.add("sidebar-label");
     label.textContent = item.title;
     label.title = item.title;
 
     button.append(icon, label);
+
+    const endSlot = document.createElement("div");
+    endSlot.classList.add("sidebar-end-slot");
+
+    const taskCount = getTaskCountPerFilter(item.id);
+    if (taskCount > 0) {
+        const count = document.createElement("span");
+        count.classList.add("sidebar-count");
+        count.textContent = taskCount;
+        endSlot.append(count);
+    }
 
     if (item.type === "project") {
         const moreBtn = document.createElement("button");
         moreBtn.className = "sidebar-more-btn";
         moreBtn.dataset.id = item.id;
         moreBtn.textContent = "⋮";
-        button.append(moreBtn);
+        endSlot.append(moreBtn);
     }
 
+    button.append(endSlot);
     listItem.append(button);
 
     return listItem;
@@ -114,15 +128,22 @@ function createTaskCard(task, active) {
         taskProjectTag.textContent = project ? project.title : "Unassigned";
     }
 
-    taskCard.append(taskCheckbox, taskTitle, taskProjectTag, taskDueDate, taskPriority);
+    taskCard.append(taskCheckbox, taskTitle);
+    if (taskProjectTag) {
+        taskCard.append(taskProjectTag);
+    }
+    taskCard.append(taskDueDate, taskPriority);
 
     return taskCard;
 }
 
 export function displayTasks() {
-    const container = document.querySelector(".tasks-list");
+    const container = document.getElementById("tasks-list");
     container.innerHTML = "";
     const active = getActiveFilter();
+
+    const header = document.getElementById("task-list-header");
+    header.classList.toggle("show-project", active?.id === "all" || active?.id === "today");
 
     getFilteredTasks().forEach(task => container.appendChild(createTaskCard(task, active)));
 }
@@ -140,11 +161,14 @@ export function fillProjectSelect() {
     const option = document.createElement("option");
     option.value = project.id;
     option.textContent = project.title;
-    if (active?.type === "project" && active.id === project.id) {
-      option.selected = true;
-    }
     select.appendChild(option);
   });
+
+  if (active?.type === "project") {
+    select.value = active.id;
+  } else {
+    select.value = "";
+  }
 }
 
 export function displayTaskEditor(taskId) {
