@@ -25,7 +25,9 @@
 
     --c-bg-primary: hsl(0 0% 7%);
     --c-bg-secondary: hsl(0 0% 9%);
-    --c-foreground: hsl(0 2% 14%);
+    --c-fg-primary: hsl(0 2% 11%);
+    --c-fg-secondary: hsl(0 2% 13%);
+
 
     --c-text-default: var(--c-grey-100);
     --c-text-muted: var(--c-grey-200);
@@ -124,7 +126,7 @@ ul {
 .sidebar-item:hover,
 .sidebar-item:has(.sidebar-more-btn.menu-open):not(.active) {
     border-radius: 6px;
-    background-color: var(--c-foreground);
+    background-color: var(--c-fg-primary);
 }
 
 .sidebar-item.active {
@@ -371,8 +373,8 @@ main header button {
 }
 
 .card-task h2.done {
-  text-decoration: line-through;
-  color: var(--c-grey-400);
+    text-decoration: line-through;
+    color: var(--c-grey-400);
 }
 
 .card-task span {
@@ -380,6 +382,21 @@ main header button {
     color: var(--c-grey-400);
 }
 
+.hidden-tag {
+    visibility: hidden;
+}
+
+.card-task span[data-priority="low"] {
+    color: hsl(84, 53%, 53%);
+}
+
+.card-task span[data-priority="medium"] {
+    color: hsl(40, 100%, 49%);
+}
+
+.card-task span[data-priority="high"] {
+    color: hsl(4, 85%, 63%); 
+}
 
 /* TASKFORM
 ====================================================== */
@@ -389,7 +406,6 @@ main header button {
     width: 400px;
     padding: 20px 20px;
     border-left: 1px solid var(--c-grey-700);
-    font-size: 0.875rem;
 }
 
 .hidden {
@@ -403,15 +419,20 @@ main header button {
 .modal {
     position: fixed;
     margin: auto;
-    border-radius: 6px;
-    font-size: 0.875rem;
+    border-radius: 20px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.modal::backdrop {
+    background-color: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(0.3px);
 }
 
 .form-modal,
 .delete-modal {
     width: 400px;
     padding: 20px;
-    background-color: var(--c-foreground)
+    background-color: var(--c-fg-primary)
 }
 
 .form-wrapper,
@@ -424,6 +445,11 @@ h2 {
     font-size: 1rem;
 }
 
+label {
+    font-size: 0.875rem;
+    color: var(--c-grey-400);
+}
+
 .form-content {
     display: grid;
     gap: 6px;
@@ -431,21 +457,24 @@ h2 {
 
 input, textarea, select {
     padding: 6px 10px;
-    border: 1px solid var(--c-grey-600);
-    background: linear-gradient(to bottom, #00000005, transparent);
-    box-shadow: inset 0px 3px 3px -1px #0000000a;
+    border: 1px solid var(--c-grey-700);
+    border-radius: 6px;
+    background-color: var(--c-fg-secondary);
     transition: border 0.15s ease-in-out;
     resize: none;
     font-weight: 300;
-    color: var(--c-grey-300);
 }
 
 textarea {
     height: 80px;
 }
 
+textarea::placeholder {
+    color: var(--c-grey-600);
+}
+
 input:hover, textarea:hover, select:hover {
-    border: 1px solid var(--c-grey-500);
+    border: 1px solid var(--c-grey-600);
 }
 
 input:focus, textarea:focus, select:focus {

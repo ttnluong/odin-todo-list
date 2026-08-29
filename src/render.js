@@ -120,19 +120,15 @@ function createTaskCard(task, active) {
 
     const taskPriority = document.createElement("span");
     taskPriority.textContent = task.priority;
+    taskPriority.dataset.priority = task.priority.toLowerCase();
 
-    let taskProjectTag = null;
-    if (active?.id === "all" || active?.id === "today") {
-        taskProjectTag = document.createElement("span");
-        const project = getProjectById(task.projectId);
-        taskProjectTag.textContent = project ? project.title : "Unassigned";
-    }
+    const taskProjectTag = document.createElement("span");
+    const project = getProjectById(task.projectId);
+    taskProjectTag.textContent = project ? project.title : "Unassigned";
+    const showProjectTag = active?.id === "all" || active?.id === "today";
+    taskProjectTag.classList.toggle("hidden-tag", !showProjectTag);
 
-    taskCard.append(taskCheckbox, taskTitle);
-    if (taskProjectTag) {
-        taskCard.append(taskProjectTag);
-    }
-    taskCard.append(taskDueDate, taskPriority);
+    taskCard.append(taskCheckbox, taskTitle, taskProjectTag, taskDueDate, taskPriority);
 
     return taskCard;
 }
