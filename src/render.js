@@ -5,7 +5,8 @@ import {
     getFilteredTasks , 
     getProjectById, 
     getTaskById,
-    getTaskCountPerFilter
+    getTaskCountPerFilter,
+    getChecklistProgress
 } from "./state.js";
 
 import {
@@ -193,8 +194,55 @@ export function displayTaskEditor(taskId) {
         if (project.id === task.projectId) option.selected = true;
         projectSelect.appendChild(option);
     });
-
+    
+    renderChecklistRows("#edit-task-checklist-items", task.checklist);
     form.dataset.editingId = taskId;
+}
+
+function createChecklistItemRow(item = { id: crypto.randomUUID(), text: "", done: false }) {
+    const row = document.createElement("div");
+    row.classList.add("checklist-item");
+    row.dataset.id = item.id;
+
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.classList.add("checklist-item-checkbox");
+    checkbox.checked = item.done;
+
+    const text = document.createElement("input");
+    text.type = "text";
+    text.classList.add("checklist-item-text");
+    text.placeholder = "Type here";
+    text.value = item.text;
+
+    const removeBtn = document.createElement("button");
+    removeBtn.type = "button";
+    removeBtn.classList.add("checklist-item-remove");
+    removeBtn.textContent = "×";
+
+    row.append(checkbox, text, removeBtn);
+    return row;
+}
+
+export function renderChecklistRows(containerSelector, items = []) {
+    const container = document.querySelector(containerSelector);
+    container.innerHTML = "";
+    items.forEach(item => container.appendChild(createChecklistItemRow(item)));
+}
+
+export function addChecklistRow(containerSelector) {
+    document.querySelector(containerSelector).appendChild(createChecklistItemRow());
+}
+
+export function collectChecklistFromForm(containerSelector) {
+    const rows = document.querySelectorAll(`${containerSelector} .checklist-item`);
+    return [...rows]
+        .map(row => ({
+            id: row.dataset.id,
+            text: row.querySelector(".checklist-item-text").value.trim(),
+            done: row.querySelector(".checklist-item-checkbox").checked
+        }))
+        .filter(item => item.text);
 }
 
 // modals

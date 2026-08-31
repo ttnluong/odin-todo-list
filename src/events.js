@@ -5,7 +5,8 @@ import {
     deleteProject,
     addTaskToProject, 
     toggleTaskDone, 
-    updateTask
+    updateTask,
+    toggleChecklistItem
 } from "./state.js";
 
 import { 
@@ -16,7 +17,10 @@ import {
     fillProjectSelect, 
     openProjectModalForAdd,
     openProjectModalForEdit,
-    displayDeleteProjectModal
+    displayDeleteProjectModal,
+    renderChecklistRows,
+    addChecklistRow,
+    collectChecklistFromForm
 } from "./render.js";
 
 export function refresh() {
@@ -162,6 +166,7 @@ function selectFilter() {
 function openTaskModal() {
     document.getElementById("add-task-btn").addEventListener("click", () => {
     fillProjectSelect();
+    renderChecklistRows("#task-checklist-items", []);
 });
 }
 
@@ -176,11 +181,13 @@ function submitTask() {
         const priority = document.getElementById("task-priority").value;
         const projectId = document.getElementById("task-project").value || null;
 
-        addTaskToProject(projectId, title, description, dueDate, priority);
+        const checklist = collectChecklistFromForm("#task-checklist-items");
+        addTaskToProject(projectId, title, description, dueDate, priority, checklist);
         refresh();
 
         document.getElementById("task-modal").close();
         taskForm.reset();
+        renderChecklistRows("#task-checklist-items", []);
     });
 }
 
@@ -193,6 +200,16 @@ function toggleTaskCheckbox() {
             toggleTaskDone(card.dataset.id);
             refresh();
         }
+    });
+}
+
+function checklistEvents(containerSelector, addBtnSelector) {
+    document.querySelector(addBtnSelector).addEventListener("click", () => {
+        addChecklistRow(containerSelector);
+    });
+    document.querySelector(containerSelector).addEventListener("click", (e) => {
+        const removeBtn = e.target.closest(".checklist-item-remove");
+        if (removeBtn) removeBtn.closest(".checklist-item").remove();
     });
 }
 
@@ -217,7 +234,8 @@ function editTask() {
       description: document.getElementById("edit-task-description").value.trim(),
       dueDate: document.getElementById("edit-task-due").value,
       priority: document.getElementById("edit-task-priority").value,
-      projectId: document.getElementById("edit-task-project").value || null
+      projectId: document.getElementById("edit-task-project").value || null,
+      checklist: collectChecklistFromForm("#edit-task-checklist-items")
     });
 
     displayTasks();
@@ -241,6 +259,8 @@ export function attachEvents() {
     openTaskModal();
     submitTask();
     toggleTaskCheckbox();
+    checklistEvents("#task-checklist-items", "#task-add-checklist-item-btn");
+    checklistEvents("#edit-task-checklist-items", "#edit-task-add-checklist-item-btn");
     editTask();
 }
 

@@ -78,7 +78,7 @@ export function deleteProject(id) {
 // ==========================================
 
 class Task {
-    constructor(projectId, title, description, dueDate, priority) {
+    constructor(projectId, title, description, dueDate, priority, checklist) {
         this.id = crypto.randomUUID();
         this.projectId = projectId;
         this.title = title;
@@ -86,11 +86,12 @@ class Task {
         this.dueDate = dueDate;
         this.priority = priority;
         this.done = false;
+        this.checklist = checklist;
     }
 }
 
-export function addTaskToProject(projectId, title, description, dueDate, priority) {
-    const task = new Task(projectId, title, description, dueDate, priority);
+export function addTaskToProject(projectId, title, description, dueDate, priority, checklist = []) {
+    const task = new Task(projectId, title, description, dueDate, priority, checklist);
     tasks.push(task);
     return task;
 }
@@ -133,4 +134,15 @@ export function toggleTaskDone(taskId) {
   if (task) {
     task.done = !task.done;
   }
+}
+
+export function toggleChecklistItem(taskId, itemId) {
+    const task = getTaskById(taskId);
+    const item = task?.checklist.find(item => item.id === itemId);
+    if (item) item.done = !item
+}
+
+export function getChecklistProgress(task) {
+    if (!task.checlist?.lenght) return null;
+    return {done: task.checklist.filter(item => item.done).length, total: task.checklist.length};
 }
