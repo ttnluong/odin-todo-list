@@ -5,12 +5,15 @@ import {
     getFilteredTasks , 
     getProjectById, 
     getTaskById,
+    addTaskToProject,
     getTaskCountPerFilter,
-    getChecklistProgress
+    getChecklistProgress,
+    updateTask
 } from "./state.js";
 
 import {
-    resetColorPicker
+    resetColorPicker,
+    refresh
 } from "./events.js";
 
 // sidebar
@@ -115,6 +118,7 @@ function createTaskCard(task, active) {
     const taskTitle = document.createElement("h2");
     taskTitle.textContent = task.title;
     taskTitle.classList.toggle("done", task.done);
+    taskTitle.classList.add("task-title");
 
     const taskDueDate = document.createElement("span");
     taskDueDate.textContent = task.dueDate;
@@ -143,6 +147,84 @@ export function displayTasks() {
     header.classList.toggle("show-project", active?.id === "all" || active?.id === "today");
 
     getFilteredTasks().forEach(task => container.appendChild(createTaskCard(task, active)));
+}
+
+export function createQuickTask() {
+    const quickTask = document.createElement("article");
+    quickTask.classList.add("card-task", "card-task-new");
+
+    const titleInput = createTaskTitleInput("", (value) => {
+        quickTask.remove(); // always remove the temp card first — either it's replaced by a real one via refresh(), or fully discarded
+        if (!value) return; // Escape or empty on blur = cancel, nothing created
+
+        const active = getActiveFilter();
+        const projectId = active?.type === "project" ? active.id : null;
+        addTaskToProject(projectId, value, "", "", "");
+        refresh();
+        displayQuickTask(); // re-open a fresh one for rapid entry
+    });
+
+    quickTask.appendChild(titleInput);
+    return quickTask;
+}
+
+export function displayQuickTask() {
+    const existing = document.querySelector(".card-task-new");
+    if (existing) { existing.querySelector("input").focus(); return; }
+
+    const tasksList = document.querySelector(".tasks-list");
+    tasksList.appendChild(createQuickTask());
+    tasksList.querySelector(".card-task-new input").focus();
+}
+
+
+function createTaskTitleInput(currentValue, onCommit) {
+    const input = document.createElement("input");
+    input.type = "text";
+    input.classList.add("task-title-input");
+    input.value = currentValue;
+    input.placeholder = "New task";
+
+    let committed = false;
+    function commitOnce(value) {
+        if (committed) return;
+        committed = true;
+        onCommit(value);
+    }
+
+    input.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            commitOnce(input.value.trim());
+        }
+        if (e.key === "Escape") {
+            commitOnce(null); // signal cancel
+        }
+    });
+
+    input.addEventListener("focusout", () => {
+        commitOnce(input.value.trim());
+    });
+
+    return input;
+}
+
+export function editTaskTitle(taskCard, task) {
+    const titleEl = taskCard.querySelector(".task-title");
+    if (!titleEl) return;
+
+    const input = createTaskTitleInput(task.title, (value) => {
+        if (value) updateTask(task.id, { title: value });
+        displayTasks(); // re-render to swap back to <h2>, whether committed or cancelled
+        
+        const editForm = document.getElementById("edit-task-form");
+        if (editForm.dataset.editingId === task.id) {
+            displayTaskEditor(task.id); // refresh sidebar if it's showing this same task
+        }
+    });
+
+    titleEl.replaceWith(input);
+    input.focus();
 }
 
 // taskform
@@ -214,6 +296,11 @@ function createChecklistItemRow(item = { id: crypto.randomUUID(), text: "", done
     text.classList.add("checklist-item-text");
     text.placeholder = "Type here";
     text.value = item.text;
+    text.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+            e.preventDefault();
+        }
+    });
 
     const removeBtn = document.createElement("button");
     removeBtn.type = "button";

@@ -398,22 +398,7 @@ main header button {
     color: hsl(4, 85%, 63%); 
 }
 
-/* TASKFORM
-====================================================== */
-
-.task-form {
-    grid-area: form;
-    width: 400px;
-    padding: 20px 20px;
-    border-left: 1px solid var(--c-grey-700);
-}
-
-.hidden {
-  display: none;
-}
-
-
-/* MODALS/FORMS
+/* MODALS/FORMS GENERAL
 ====================================================== */
 
 .modal {
@@ -508,6 +493,58 @@ input:focus, textarea:focus, select:focus {
     justify-content: end;
     gap: 12px;
     margin-top: 28px;
+}
+
+/* TASKFORM
+====================================================== */
+
+.task-form {
+    grid-area: form;
+    width: 400px;
+    padding: 20px 20px;
+    border-left: 1px solid var(--c-grey-700);
+}
+
+.hidden {
+    display: none;
+}
+
+
+.checklist-items {
+    display: grid;
+    gap: 4px;
+    padding: 0px 6px;
+}
+
+.checklist-item {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 6px;
+}
+
+.checklist-item-checkbox {
+    
+}
+
+.checklist-item-text {
+    padding: 6px 10px;
+    border: none;
+    border-bottom: 1px solid var(--c-grey-700);
+    border-radius: 0;
+    background-color: transparent;
+    transition: border 0.15s ease-in-out;
+    font-weight: 300;
+}
+
+.checklist-item-text:hover {
+    border: none;
+    border-bottom: 1px solid var(--c-grey-600);
+}
+
+.checklist-item-text:focus {
+    outline: none;
+    border: none;
+    border-bottom: 1px solid var(--c-grey-500)
 }
 
 /* ACTION BUTTONS

@@ -4,6 +4,7 @@ import {
     setActiveFilter, 
     deleteProject,
     addTaskToProject, 
+    getTaskById,
     toggleTaskDone, 
     updateTask,
     toggleChecklistItem
@@ -20,7 +21,9 @@ import {
     displayDeleteProjectModal,
     renderChecklistRows,
     addChecklistRow,
-    collectChecklistFromForm
+    collectChecklistFromForm,
+    displayQuickTask,
+    editTaskTitle
 } from "./render.js";
 
 export function refresh() {
@@ -238,14 +241,30 @@ function editTask() {
       checklist: collectChecklistFromForm("#edit-task-checklist-items")
     });
 
+    document.activeElement.blur();
     displayTasks();
-    displayTaskEditor();
   });
 
   document.getElementById("edit-task-cancel").addEventListener("click", () => {
     editForm.reset();
     displayTaskEditor();
   });
+}
+
+function addQuickTask() {
+    document.getElementById("quick-add-btn").addEventListener("click", () => {
+        displayQuickTask();
+    });
+}
+
+function editTaskTitleInline() {
+    document.getElementById("tasks-list").addEventListener("click", (e) => {
+        const titleEl = e.target.closest(".task-title");
+        if (!titleEl) return;
+        const card = titleEl.closest(".card-task");
+        const task = getTaskById(card.dataset.id);
+        editTaskTitle(card, task);
+    });
 }
 
 export function attachEvents() {
@@ -262,6 +281,8 @@ export function attachEvents() {
     checklistEvents("#task-checklist-items", "#task-add-checklist-item-btn");
     checklistEvents("#edit-task-checklist-items", "#edit-task-add-checklist-item-btn");
     editTask();
+    addQuickTask();
+    editTaskTitleInline();
 }
 
 
