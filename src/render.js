@@ -120,22 +120,62 @@ function createTaskCard(task, active) {
     taskTitle.classList.toggle("done", task.done);
     taskTitle.classList.add("task-title");
 
-    const taskDueDate = document.createElement("span");
-    taskDueDate.textContent = task.dueDate;
-
-    const taskPriority = document.createElement("span");
-    taskPriority.textContent = task.priority;
-    taskPriority.dataset.priority = task.priority.toLowerCase();
-
     const taskProjectTag = document.createElement("span");
     const project = getProjectById(task.projectId);
     taskProjectTag.textContent = project ? project.title : "Unassigned";
     const showProjectTag = active?.id === "all" || active?.id === "today";
     taskProjectTag.classList.toggle("hidden-tag", !showProjectTag);
 
-    taskCard.append(taskCheckbox, taskTitle, taskProjectTag, taskDueDate, taskPriority);
+    const taskDueDate = document.createElement("span");
+    taskDueDate.textContent = formatDueDate(task.dueDate);
+    const dueStatus = getDueDateStatus(task.dueDate);
+    if (dueStatus && !task.done) taskDueDate.dataset.status = dueStatus;
+
+    const taskPriority = document.createElement("span");
+    taskPriority.textContent = task.priority;
+    taskPriority.dataset.priority = task.priority.toLowerCase();
+
+    const taskChecklist = document.createElement("span");
+    const progress = getChecklistProgress(task);
+    taskChecklist.textContent = progress ? `${progress.done} / ${progress.total}` : "";
+
+    taskCard.append(taskCheckbox, taskTitle, taskProjectTag, taskDueDate, taskPriority, taskChecklist);
 
     return taskCard;
+}
+
+function formatDueDate(dueDateStr) {
+    if (!dueDateStr) return "";
+    const [year, month, day] = dueDateStr.split("-").map(Number);
+    const dueDate = new Date(year, month - 1, day);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const diffDays = Math.round((dueDate - today) / 86400000);
+
+    if (diffDays === 0) return "Today";
+    if (diffDays === 1) return "Tomorrow";
+    if (diffDays === -1) return "Yesterday";
+
+    const isCurrentYear = dueDate.getFullYear() === today.getFullYear();
+    return dueDate.toLocaleDateString("en-GB", {
+        day: "numeric",
+        month: "short",
+        year: isCurrentYear ? undefined : "numeric"
+    });
+}
+
+function getDueDateStatus(dueDateStr) {
+    if (!dueDateStr) return null;
+    const [year, month, day] = dueDateStr.split("-").map(Number);
+    const dueDate = new Date(year, month - 1, day);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const diffDays = Math.round((dueDate - today) / 86400000);
+
+    if (diffDays < 0) return "overdue";
+    if (diffDays === 0) return "today";
+    if (diffDays <= 7) return "soon";
+    return "later";
 }
 
 export function displayTasks() {
@@ -322,7 +362,10 @@ export function renderChecklistRows(containerSelector, items = []) {
 }
 
 export function addChecklistRow(containerSelector) {
-    document.querySelector(containerSelector).appendChild(createChecklistItemRow());
+    const container = document.querySelector(containerSelector);
+    const row = createChecklistItemRow();
+    container.appendChild(row);
+    row.querySelector(".checklist-item-text").focus();
 }
 
 export function collectChecklistFromForm(containerSelector) {

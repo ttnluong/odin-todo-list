@@ -279,7 +279,7 @@ main header button {
 
 .task-list-header {
     display: grid;
-    grid-template: auto / 0.06fr 1fr 0.35fr 0.25fr 0.25fr;
+    grid-template: auto / 0.06fr 1fr 0.35fr 0.21fr 0.17fr 0.2fr;
     gap: 20px;
     padding-bottom: 4px;
     border-bottom: 1px solid var(--c-grey-600);
@@ -307,7 +307,7 @@ main header button {
 
 .card-task {
     display: grid;
-    grid-template-columns: 0.06fr 1fr 0.35fr 0.25fr 0.25fr;
+    grid-template-columns: 0.06fr 1fr 0.35fr 0.21fr 0.17fr 0.2fr;
     align-items: center;
     gap: 20px;
     padding: 14px 0px;
@@ -384,6 +384,18 @@ main header button {
 
 .card-task span[data-priority="high"] {
     color: hsl(4, 85%, 63%); 
+}
+
+.card-task span[data-status="overdue"] {
+    color: hsl(4, 85%, 63%); 
+}
+
+.card-task span[data-status="today"] {
+    color: hsl(40, 100%, 49%);
+}
+
+.card-task span[data-status="soon"] {
+    color: hsl(216, 81%, 60%); 
 }
 
 .quick-add {
