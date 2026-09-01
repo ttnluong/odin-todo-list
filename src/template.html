@@ -20,8 +20,8 @@
                  <ul class="projects-list">
                     <!-- render project list -->
                 </ul>
-                <button class="add-project-btn" id="add-project-btn" command="show-modal" commandfor="project-modal">
-                    <svg class="add-project-icon"><use href="./assets/lucide-sprite.svg#plus"></svg>
+                <button class="plus-btn" id="add-project-btn" command="show-modal" commandfor="project-modal">
+                    <svg class="plus-icon"><use href="./assets/lucide-sprite.svg#plus"></svg>
                 </button>
             </section>
         </aside> 
@@ -29,11 +29,11 @@
             <header>
                 <h1 id="header-title"></h1>
                 <p id="header-description"></p>
-                <button class="btn btn-primary color"id="add-task-btn" command="show-modal" commandfor="task-modal">+ add task</button>
+                <button class="btn btn-primary color"id="add-task-btn" command="show-modal" commandfor="task-modal">+ Add task</button>
             </header>
             <section class="task-list-section">
                 <div class="task-list-header" id="task-list-header">
-                    <span></span>
+                    <span class="header-checkbox">o</span>
                     <span>Title</span>
                     <span class="header-project">Project</span>
                     <span>Due date</span>
@@ -43,7 +43,9 @@
                     <!-- render cards -->
                 </div>
                 <div class="quick-add" id="quick-add">
-                    <button class="quick-add-btn" id="quick-add-btn">+ Add task</button>
+                    <button class="plus-btn" id="quick-add-btn">
+                        <svg class="plus-icon"><use href="./assets/lucide-sprite.svg#plus"></svg>
+                    </button>
                 </div>
             </section>
         </main>
@@ -82,7 +84,9 @@
                     <div class="form-content">
                         <label>Checklist</label>
                         <div class="checklist-items" id="edit-task-checklist-items"></div>
-                        <button type="button" class="btn btn--neutral" id="edit-task-add-checklist-item-btn">+ Add item</button>
+                        <button type="button" class="plus-btn" id="edit-task-add-checklist-item-btn">
+                            <svg class="plus-icon"><use href="./assets/lucide-sprite.svg#plus"></svg>
+                        </button>
                     </div>
                 </div>
                 <div class="form-actions">
@@ -162,7 +166,7 @@
                 <div class="form-content">
                     <label>Checklist</label>
                     <div class="checklist-items" id="task-checklist-items"></div>
-                    <button type="button" class="btn btn--neutral" id="task-add-checklist-item-btn">+ Add item</button>
+                    <button type="button" class="plus-btn" id="task-add-checklist-item-btn">+ Add item</button>
                 </div>
             </div>
             <div class="modal-actions">

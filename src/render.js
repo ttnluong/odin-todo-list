@@ -216,7 +216,7 @@ export function editTaskTitle(taskCard, task) {
     const input = createTaskTitleInput(task.title, (value) => {
         if (value) updateTask(task.id, { title: value });
         displayTasks(); // re-render to swap back to <h2>, whether committed or cancelled
-        
+
         const editForm = document.getElementById("edit-task-form");
         if (editForm.dataset.editingId === task.id) {
             displayTaskEditor(task.id); // refresh sidebar if it's showing this same task
@@ -290,9 +290,13 @@ function createChecklistItemRow(item = { id: crypto.randomUUID(), text: "", done
     checkbox.type = "checkbox";
     checkbox.classList.add("checklist-item-checkbox");
     checkbox.checked = item.done;
+    checkbox.addEventListener("change", () => {
+        text.classList.toggle("done", checkbox.checked);
+    });
 
     const text = document.createElement("input");
     text.type = "text";
+    text.classList.toggle("done", item.done);
     text.classList.add("checklist-item-text");
     text.placeholder = "Type here";
     text.value = item.text;
