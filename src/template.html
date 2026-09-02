@@ -53,7 +53,12 @@
         <aside class="task-form">
             <form class="form-sidebar hidden" id="edit-task-form">
                 <div class="form-wrapper">
-                    <h2>Edit task</h2>
+                    <div class="form-header">
+                        <h2>Edit task</h2>
+                        <button class="btn btn-neutral-nofill" id="edit-task-cancel">
+                            <svg class="x-icon"><use href="./assets/lucide-sprite.svg#x"></svg>
+                        </button>
+                    </div>
                     <hr>
                     <div class="form-content">
                         <label for="edit-task-title">Title *</label>
@@ -63,24 +68,30 @@
                         <label for="edit-task-description">Description</label>
                         <textarea id="edit-task-description" name="description" placeholder="Add an optional description"></textarea>
                     </div>
-                    <div class="form-content">
-                        <label for="edit-task-due">Due Date</label>
-                        <input type="date" id="edit-task-due" name="dueDate">
-                    </div>
-                    <div class="form-content">
-                        <label for="edit-task-priority">Priority</label>
-                        <select id="edit-task-priority" name="priority">
-                            <option value="">Select priority</option>
-                            <option value="Low">Low</option>
-                            <option value="Medium">Medium</option>
-                            <option value="High">High</option>
-                        </select>
+                    <div class="form-row">
+                        <div class="form-content">
+                            <label for="edit-task-due">Due Date</label>
+                            <input type="date" id="edit-task-due" name="dueDate">
+                        </div>
+                        <div class="form-content">
+                            <label for="edit-task-priority">Priority</label>
+                            <select id="edit-task-priority" name="priority">
+                                <option value="">Select priority</option>
+                                <option value="Low">Low</option>
+                                <option value="Medium">Medium</option>
+                                <option value="High">High</option>
+                            </select>
+                        </div>
                     </div>
                     <div class="form-content">
                         <label for="edit-task-project">Project</label>
                         <select id="edit-task-project" name="projectId">
                             <!-- render project list -->
                         </select>
+                    </div>
+                    <div class="form-content">
+                        <label for="edit-task-notes">Notes</label>
+                        <textarea id="edit-task-notes" name="notes" placeholder="Add optional notes"></textarea>
                     </div>
                     <div class="form-content">
                         <label>Checklist</label>
@@ -91,7 +102,7 @@
                     </div>
                 </div>
                 <div class="form-actions">
-                    <button class="btn btn-danger-2" id="edit-task-delete">
+                    <button class="btn btn-danger-nofill" id="edit-task-delete">
                         <svg class="trash-icon"><use href="./assets/lucide-sprite.svg#trash-2"></svg>
                     </button>
                     <button class="btn btn-neutral" id="edit-task-cancel">Cancel</button>
@@ -148,18 +159,20 @@
                     <label for="task-description">Description</label>
                     <textarea id="task-description" name="description" placeholder="Add an optional description"></textarea>
                 </div>
-                <div class="form-content">
-                    <label for="task-due">Due Date</label>
-                    <input type="date" id="task-due" name="dueDate">
-                </div>
-                <div class="form-content">
-                    <label for="task-priority">Priority</label>
-                    <select id="task-priority" name="priority">
-                        <option value="">Select priority</option>
-                        <option value="Low">Low</option>
-                        <option value="Medium">Medium</option>
-                        <option value="High">High</option>
-                    </select>
+                <div class="form-row">
+                    <div class="form-content">
+                        <label for="task-due">Due Date</label>
+                        <input type="date" id="task-due" name="dueDate">
+                    </div>
+                    <div class="form-content">
+                        <label for="task-priority">Priority</label>
+                        <select id="task-priority" name="priority">
+                            <option value="">Select priority</option>
+                            <option value="Low">Low</option>
+                            <option value="Medium">Medium</option>
+                            <option value="High">High</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="form-content">
                     <label for="task-project">Project</label>
@@ -179,14 +192,14 @@
             </div>
         </form>
     </dialog>
-    <dialog class="modal" id="project-delete-modal">
+    <dialog class="modal" id="item-delete-modal">
         <div class="delete-modal">
             <div class="modal-wrapper">
-                <h2>Delete project</h2>
-                <p id="project-delete-msg">Are you sure you want to delete this project? This will also delete all of its tasks.</p>
+                <h2 id="delete-modal-title">Delete project</h2>
+                <p id="delete-modal-msg">Are you sure you want to delete this project? This will also delete all of its tasks.</p>
                 <div class="modal-actions">
-                    <button class="btn btn-neutral" commandfor="project-delete-modal" command="close">Cancel</button>
-                    <button class="btn btn-danger" id="project-delete-btn">Delete project</button>
+                    <button class="btn btn-neutral" commandfor="item-delete-modal" command="close">Cancel</button>
+                    <button class="btn btn-danger" id="item-delete-btn">Delete project</button>
                 </div>
             </div>
         </div>

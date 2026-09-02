@@ -146,3 +146,9 @@ export function getChecklistProgress(task) {
     if (!task.checklist?.length) return null;
     return {done: task.checklist.filter(item => item.done).length, total: task.checklist.length};
 }
+
+export function deleteTask(id) {
+    const index = tasks.findIndex(task => task.id === id);
+    if (index === -1) return;
+    tasks.splice(index, 1);
+}

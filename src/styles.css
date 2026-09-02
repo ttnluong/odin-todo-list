@@ -442,6 +442,7 @@ label {
 
 .form-content {
     display: grid;
+    flex: 1;
     gap: 6px;
 }
 
@@ -473,6 +474,67 @@ input:focus, textarea:focus, select:focus {
     border: 1px solid var(--c-grey-500)
 }
 
+.form-actions,
+.modal-actions {
+    display: flex;
+    justify-content: end;
+    gap: 12px;
+    margin-top: 28px;
+}
+
+.task-title-input {
+    min-width: 400px;
+}
+
+
+/* PROJECTFORM
+====================================================== */
+
+.color-picker {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 4px;
+}
+
+.color-swatch {
+    width: 20px;
+    height: 20px;
+    border-radius: 2px;
+    outline: 3px solid var(--c-grey-600);
+    outline-offset: -5px;
+    outline-color: transparent;
+    transition: outline-color 0.15s ease;
+}
+
+.color-swatch.selected {
+    outline-color: var(--c-grey-600);
+}
+
+/* TASKFORM
+====================================================== */
+
+.task-form {
+    grid-area: form;
+    width: 368px;
+    padding: 20px 20px;
+    border-left: 1px solid var(--c-grey-700);
+}
+
+.hidden {
+    display: none;
+}
+
+.form-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.form-row {
+    display: flex;
+    gap: 12px;
+}
+
 #task-due,
 #edit-task-due {
     padding-right: 6px;
@@ -499,52 +561,6 @@ select[data-priority="high"] {
 option[value="low"] { color: hsl(84, 53%, 53%); }
 option[value="medium"] { color: hsl(40, 100%, 49%); }
 option[value="high"] { color: hsl(4, 85%, 63%); }
-
-.color-picker {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 4px;
-}
-
-.color-swatch {
-    width: 20px;
-    height: 20px;
-    border-radius: 2px;
-    outline: 3px solid var(--c-grey-600);
-    outline-offset: -5px;
-    outline-color: transparent;
-    transition: outline-color 0.15s ease;
-}
-
-.color-swatch.selected {
-    outline-color: var(--c-grey-600);
-}
-
-.form-actions,
-.modal-actions {
-    display: flex;
-    justify-content: end;
-    gap: 12px;
-    margin-top: 28px;
-}
-
-.task-title-input {
-    min-width: 400px;
-}
-
-/* TASKFORM
-====================================================== */
-
-.task-form {
-    grid-area: form;
-    width: 368px;
-    padding: 20px 20px;
-    border-left: 1px solid var(--c-grey-700);
-}
-
-.hidden {
-    display: none;
-}
 
 
 .checklist-items {
@@ -623,11 +639,15 @@ option[value="high"] { color: hsl(4, 85%, 63%); }
     color: var(--c-grey-500);
 }
 
+.form-sidebar .form-actions {
+    margin-top: 40px;
+}
+
 #edit-task-delete {
     margin-right: auto;
 }
 
-/* ACTION BUTTONS
+/* ACTION BUTTONS 
 ====================================================== */
 
 .btn {
@@ -664,6 +684,18 @@ option[value="high"] { color: hsl(4, 85%, 63%); }
     background-color: color-mix(in hsl shorter hue, var(--c-grey-500), black 8%);
 }
 
+.btn-neutral-nofill {
+    display: grid;
+    align-items: center;
+    padding: 6px 12px;
+    /* border: 1px solid var(--c-grey-500);
+    background-color: var(--c-grey-700); */
+}
+
+.btn-neutral-nofill:hover {
+    background-color: var(--c-fg-primary);
+}
+
 .btn-danger {
     background-color: var(--c-red);
     color: var(--c-grey-700);
@@ -674,15 +706,15 @@ option[value="high"] { color: hsl(4, 85%, 63%); }
     background-color: color-mix(in hsl shorter hue, var(--c-red), black 8%);
 }
 
-.btn-danger-2 {
+.btn-danger-nofill {
     display: grid;
     align-items: center;
     padding: 2px 12px;
     border: 1px solid var(--c-red);
 }
 
-.btn-danger-2:hover {
-    background-color: color-mix(in hsl shorter hue, var(--c-grey-600), black 8%);
+.btn-danger-nofill:hover {
+    background-color: var(--c-bg-secondary);
 }
 
 .plus-btn {
@@ -705,7 +737,8 @@ option[value="high"] { color: hsl(4, 85%, 63%); }
 }
 
 .plus-icon,
-.trash-icon {
+.trash-icon,
+.x-icon {
     width: 20px;
     height: 20px;
     color: var(--c-grey-300);

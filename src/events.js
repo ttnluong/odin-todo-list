@@ -7,7 +7,8 @@ import {
     getTaskById,
     toggleTaskDone, 
     updateTask,
-    toggleChecklistItem
+    toggleChecklistItem,
+    deleteTask
 } from "./state.js";
 
 import { 
@@ -18,12 +19,13 @@ import {
     fillProjectSelect, 
     openProjectModalForAdd,
     openProjectModalForEdit,
-    displayDeleteProjectModal,
     renderChecklistRows,
     addChecklistRow,
     collectChecklistFromForm,
     displayQuickTask,
-    editTaskTitle
+    editTaskTitle,
+    displayDeleteProjectModal,
+    displayDeleteTaskModal
 } from "./render.js";
 
 export function refresh() {
@@ -133,23 +135,6 @@ function resetProjectModal() {
   modal.addEventListener("close", () => {
     document.getElementById("project-form").reset();
     resetColorPicker();
-  });
-}
-
-function deleteProjectEvents() {
-    const projectDeleteBtn = document.getElementById("project-delete-btn");
-  
-    projectDeleteBtn.addEventListener("click", () => {
-    const id = projectDeleteBtn.dataset.deletingId;
-
-    const active = getActiveFilter();
-    if (active?.id === id) {
-      setActiveFilter("all");
-    }
-
-    deleteProject(id);
-    refresh();
-    document.getElementById("project-delete-modal").close();
   });
 }
 
@@ -278,13 +263,41 @@ function editTaskTitleInline() {
     });
 }
 
+function deleteItemEvents() {
+    const itemDeleteBtn = document.getElementById("item-delete-btn");
+  
+    itemDeleteBtn.addEventListener("click", () => {
+        const id = itemDeleteBtn.dataset.deletingId;
+        const type = itemDeleteBtn.dataset.deletingType;
+
+        if (type === "project") {
+            const active = getActiveFilter();
+            if (active?.id === id) setActiveFilter("all");
+            deleteProject(id);
+        } else if (type === "task") {
+            deleteTask(id);
+        }
+
+        refresh();
+        document.getElementById("item-delete-modal").close();
+    });
+}
+
+function deleteTaskEvents() {
+    document.getElementById("edit-task-delete").addEventListener("click", () => {
+        const editForm = document.getElementById("edit-task-form");
+        const taskId = editForm.dataset.editingId;
+        if (!taskId) return;
+        displayDeleteTaskModal(taskId);
+    });
+}
+
 export function attachEvents() {
     openAddProjectModal();
     projectContextMenu();
     selectProjectColor();
     submitProject();
     resetProjectModal();
-    deleteProjectEvents();
     selectFilter();
     openTaskModal();
     submitTask();
@@ -296,6 +309,8 @@ export function attachEvents() {
     editTaskTitleInline();
     updatePrioritySelectColor("task-priority");
     updatePrioritySelectColor("edit-task-priority");
+    deleteItemEvents();
+    deleteTaskEvents();
 }
 
 

@@ -387,36 +387,61 @@ export function collectChecklistFromForm(containerSelector) {
 // ==========================================
 
 export function openProjectModalForEdit(projectId) {
-  const project = getProjectById(projectId);
-  if (!project) return;
+    const project = getProjectById(projectId);
+    if (!project) return;
 
-  document.getElementById("project-modal-title").textContent = "Edit project";
-  document.getElementById("project-title").value = project.title;
-  document.getElementById("project-description").value = project.description || "";
-  document.getElementById("project-color").value = project.color;
+    document.getElementById("project-modal-title").textContent = "Edit project";
+    document.getElementById("project-title").value = project.title;
+    document.getElementById("project-description").value = project.description || "";
+    document.getElementById("project-color").value = project.color;
 
-  document.querySelectorAll(".color-swatch").forEach(swatch => {
-    swatch.classList.toggle("selected", swatch.dataset.color === project.color);
-  });
+    document.querySelectorAll(".color-swatch").forEach(swatch => {
+        swatch.classList.toggle("selected", swatch.dataset.color === project.color);
+    });
 
-  document.getElementById("project-form").dataset.editingId = projectId;
-  document.getElementById("project-modal").showModal();
+    document.getElementById("project-form").dataset.editingId = projectId;
+    document.getElementById("project-modal").showModal();
 }
 
 export function openProjectModalForAdd() {
-  document.getElementById("project-modal-title").textContent = "Add project";
-  document.getElementById("project-form").reset();
-  document.getElementById("project-form").dataset.editingId = "";
-  resetColorPicker();
+    document.getElementById("project-modal-title").textContent = "Add project";
+    document.getElementById("project-form").reset();
+    document.getElementById("project-form").dataset.editingId = "";
+    resetColorPicker();
+}
+
+export function displayDeleteModal({title, message, id, type}) {
+    document.getElementById("delete-modal-title").textContent = title;
+    document.getElementById("delete-modal-msg").textContent = message;
+    document.getElementById("item-delete-btn").textContent = title;
+
+    const confirmBtn = document.getElementById("item-delete-btn");
+    confirmBtn.dataset.deletingId = id;
+    confirmBtn.dataset.deletingType = type;
+
+    document.getElementById("item-delete-modal").showModal();
 }
 
 export function displayDeleteProjectModal(projectId) {
-  const project = getProjectById(projectId);
-  if (!project) return;
+    const project = getProjectById(projectId);
+    if (!project) return;
 
-  document.getElementById("project-delete-msg").textContent =
-    `Are you sure you want to delete "${project.title}"? This will also delete all of its tasks.`;
+    displayDeleteModal({
+        title: "Delete project",
+        message: `Are you sure you want to delete "${project.title}"? This will also delete all of its tasks.`,
+        id: projectId,
+        type: "project"
+    });
+}
 
-  document.getElementById("project-delete-btn").dataset.deletingId = projectId;
-  document.getElementById("project-delete-modal").showModal();
+export function displayDeleteTaskModal(taskId) {
+    const task = getTaskById(taskId);
+    if (!task) return;
+
+    displayDeleteModal({
+        title: "Delete task",
+        message: `Are you sure you want to delete "${task.title}"? This can't be undone.`,
+        id: taskId,
+        type: "task"
+    });
 }
