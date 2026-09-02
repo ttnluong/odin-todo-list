@@ -452,12 +452,12 @@ input, textarea, select {
     border-radius: 6px;
     background-color: var(--c-fg-secondary);
     transition: border 0.15s ease-in-out;
-    resize: none;
     font-weight: 300;
 }
 
 textarea {
-    height: 80px;
+    resize: vertical;
+    height: 60px;
 }
 
 textarea::placeholder {

@@ -305,7 +305,7 @@ export function displayTaskEditor(taskId) {
     document.getElementById("edit-task-title").value = task.title;
     document.getElementById("edit-task-description").value = task.description || "";
     document.getElementById("edit-task-due").value = task.dueDate || "";
-    
+
     const prioritySelect = document.getElementById("edit-task-priority");
     prioritySelect.value = task.priority;
     prioritySelect.dataset.priority = task.priority.toLowerCase();
@@ -320,7 +320,8 @@ export function displayTaskEditor(taskId) {
         projectSelect.appendChild(option);
     });
     
-    renderChecklistRows("#edit-task-checklist-items", task.checklist);
+    const checklistStart = task.checklist?.length ? task.checklist : [{id: crypto.randomUUID(), text: "", done: false }];
+    renderChecklistRows("#edit-task-checklist-items", checklistStart);
     form.dataset.editingId = taskId;
 }
 

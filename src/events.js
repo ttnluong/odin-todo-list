@@ -173,7 +173,7 @@ function openTaskModal() {
     prioritySelect.value = "";
     delete prioritySelect.dataset.priority;
 
-    renderChecklistRows("#task-checklist-items", []);
+    renderChecklistRows("#task-checklist-items", [{ id: crypto.randomUUID(), text: "", done: false }]);
 });
 }
 
@@ -201,7 +201,7 @@ function submitTask() {
 
         document.getElementById("task-modal").close();
         taskForm.reset();
-        renderChecklistRows("#task-checklist-items", []);
+        renderChecklistRows("#task-checklist-items", [{ id: crypto.randomUUID(), text: "", done: false }]);
     });
 }
 
