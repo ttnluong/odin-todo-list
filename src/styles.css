@@ -12,7 +12,12 @@
 ====================================================== */
 
 :root { 
-    --c-red: hsl(357 53% 60%);
+    --c-danger-red: hsl(357 53% 60%);
+
+    --c-accent-red: hsl(4, 85%, 63%);
+    --c-accent-orange: hsl(40, 100%, 49%);
+    --c-accent-lime: hsl(84, 54%, 46%);
+    --c-accent-blue: hsl(216, 81%, 60%); 
 
     --c-grey-100: hsl(0 4% 88%); /* 13.1 E2DFDF*/
     --c-grey-200: hsl(0 4% 77%); /* 9.9 */
@@ -300,7 +305,7 @@ main header button {
 }
 
 .task-list-header:not(.show-project) .header-project {
-  visibility: hidden;
+    visibility: hidden;
 }
 
 /* TASKS LIST
@@ -335,8 +340,8 @@ main header button {
 }
 
 .task-checkbox:checked {
-    background-color: #94C748;
-    border-color: #94C748;
+    background-color: var(--c-accent-lime);
+    border-color: var(--c-accent-lime);
 }
 
 .task-checkbox:checked::after {
@@ -376,27 +381,27 @@ main header button {
 }
 
 .card-task span[data-priority="low"] {
-    color: hsl(84, 53%, 53%);
+    color: var(--c-accent-lime);
 }
 
 .card-task span[data-priority="medium"] {
-    color: hsl(40, 100%, 49%);
+    color: var(--c-accent-orange);
 }
 
 .card-task span[data-priority="high"] {
-    color: hsl(4, 85%, 63%); 
+    color: var(--c-accent-red); 
 }
 
 .card-task span[data-status="overdue"] {
-    color: hsl(4, 85%, 63%); 
+    color: var(--c-accent-red); 
 }
 
 .card-task span[data-status="today"] {
-    color: hsl(40, 100%, 49%);
+    color: var(--c-accent-orange);
 }
 
 .card-task span[data-status="soon"] {
-    color: hsl(216, 81%, 60%); 
+    color: var(--c-accent-blue); 
 }
 
 .quick-add {
@@ -547,20 +552,20 @@ input:focus, textarea:focus, select:focus {
 }
 
 select[data-priority="low"] {   
-    color: hsl(84, 53%, 53%);
+    color: var(--c-accent-lime);
 }
 
 select[data-priority="medium"] { 
-    color: hsl(40, 100%, 49%);
+    color: var(--c-accent-orange);
 }
 
 select[data-priority="high"] { 
-    color: hsl(4, 85%, 63%); 
+    color: var(--c-accent-red); 
 }
 
-option[value="low"] { color: hsl(84, 53%, 53%); }
-option[value="medium"] { color: hsl(40, 100%, 49%); }
-option[value="high"] { color: hsl(4, 85%, 63%); }
+option[value="low"] { color: var(--c-accent-lime); }
+option[value="medium"] { color: var(--c-accent-orange); }
+option[value="high"] { color: var(--c-accent-red); }
 
 
 .checklist-items {
@@ -596,8 +601,8 @@ option[value="high"] { color: hsl(4, 85%, 63%); }
 }
 
 .checklist-item-checkbox:checked {
-    background-color: #94C748;
-    border-color: #94C748;
+    background-color: var(--c-accent-lime);
+    border-color: var(--c-accent-lime);
 }
 
 .checklist-item-checkbox:checked::after {
@@ -672,7 +677,11 @@ option[value="high"] { color: hsl(4, 85%, 63%); }
 }
 
 .btn-primary.color {
-    background-color: #94C748;
+    background-color: var(--c-accent-lime);
+}
+
+.btn-primary.color:hover {
+    background-color: color-mix(in hsl shorter hue, var(--c-accent-lime), black 8%);
 }
 
 .btn-neutral {
@@ -697,20 +706,20 @@ option[value="high"] { color: hsl(4, 85%, 63%); }
 }
 
 .btn-danger {
-    background-color: var(--c-red);
+    background-color: var(--c-danger-red);
     color: var(--c-grey-700);
     font-weight: 500;
 }
 
 .btn-danger:hover {
-    background-color: color-mix(in hsl shorter hue, var(--c-red), black 8%);
+    background-color: color-mix(in hsl shorter hue, var(--c-danger-red), black 8%);
 }
 
 .btn-danger-nofill {
     display: grid;
     align-items: center;
     padding: 2px 12px;
-    border: 1px solid var(--c-red);
+    border: 1px solid var(--c-danger-red);
 }
 
 .btn-danger-nofill:hover {
@@ -748,6 +757,10 @@ option[value="high"] { color: hsl(4, 85%, 63%); }
     fill: none;
 }
 
+.x-icon {
+    color: var(--c-grey-100);
+}
+
 .trash-icon {
-    color: color-mix(in hsl shorter hue, var(--c-red), black 20%);
+    color: color-mix(in hsl shorter hue, var(--c-danger-red), black 20%);
 }
