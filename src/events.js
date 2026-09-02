@@ -165,12 +165,23 @@ function selectFilter() {
     });
 }
 
-
 function openTaskModal() {
     document.getElementById("add-task-btn").addEventListener("click", () => {
     fillProjectSelect();
+    
+    const prioritySelect = document.getElementById("task-priority");
+    prioritySelect.value = "";
+    delete prioritySelect.dataset.priority;
+
     renderChecklistRows("#task-checklist-items", []);
 });
+}
+
+function updatePrioritySelectColor(selectId) {
+    const select = document.getElementById(selectId);
+    select.addEventListener("change", () => {
+        select.dataset.priority = select.value.toLowerCase();
+    });
 }
 
 function submitTask() {
@@ -283,6 +294,8 @@ export function attachEvents() {
     editTask();
     addQuickTask();
     editTaskTitleInline();
+    updatePrioritySelectColor("task-priority");
+    updatePrioritySelectColor("edit-task-priority");
 }
 
 

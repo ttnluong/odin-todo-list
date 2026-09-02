@@ -203,28 +203,29 @@ ul {
 }
 
 .context-menu {
-  position: fixed;
-  background: var(--c-foreground);
-  border-radius: 6px;
-  padding: 4px;
-  list-style: none;
-  z-index: 1000;
+    position: fixed;
+    background: var(--c-fg-secondary);
+    padding: 4px;
+    border-radius: 6px;
+    list-style: none;
+    z-index: 1000;
 }
 
 .context-menu.hidden {
-  display: none;
+    display: none;
 }
 
 .context-menu button {
-  display: block;
-  width: 100%;
-  text-align: left;
-  padding: 6px 12px;
-  font-size: 0.8125rem;
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 0.8125rem;
 }
 
 .context-menu button:hover {
-  background: var(--c-bg-secondary);
+    background: var(--c-grey-600);
 }
 
 /* MAIN
@@ -445,6 +446,7 @@ label {
 }
 
 input, textarea, select {
+    appearance: base-select;
     padding: 6px 10px;
     border: 1px solid var(--c-grey-700);
     border-radius: 6px;
@@ -470,6 +472,33 @@ input:focus, textarea:focus, select:focus {
     outline: none;
     border: 1px solid var(--c-grey-500)
 }
+
+#task-due,
+#edit-task-due {
+    padding-right: 6px;
+}
+
+#task-due::-webkit-calendar-picker-indicator,
+#edit-task-due::-webkit-calendar-picker-indicator {
+    filter: invert(1) brightness(0.7); /* slightly softened white, adjust to taste */
+    cursor: pointer;
+}
+
+select[data-priority="low"] {   
+    color: hsl(84, 53%, 53%);
+}
+
+select[data-priority="medium"] { 
+    color: hsl(40, 100%, 49%);
+}
+
+select[data-priority="high"] { 
+    color: hsl(4, 85%, 63%); 
+}
+
+option[value="low"] { color: hsl(84, 53%, 53%); }
+option[value="medium"] { color: hsl(40, 100%, 49%); }
+option[value="high"] { color: hsl(4, 85%, 63%); }
 
 .color-picker {
     display: flex;
@@ -594,11 +623,15 @@ input:focus, textarea:focus, select:focus {
     color: var(--c-grey-500);
 }
 
+#edit-task-delete {
+    margin-right: auto;
+}
+
 /* ACTION BUTTONS
 ====================================================== */
 
 .btn {
-    padding: 6px 12px;
+    padding: 8px 12px;
     border-radius: 4px;
     font-size: 0.875rem;
     transition: transform 0.15s ease;
@@ -623,12 +656,12 @@ input:focus, textarea:focus, select:focus {
 }
 
 .btn-neutral {
-    border: 1px solid var(--c-grey-400);
-    color: var(--c-grey-400);
+    background-color: var(--c-grey-500);
+    color: var(--c-grey-100);
 }
 
 .btn-neutral:hover {
-    background-color: color-mix(in hsl shorter hue, var(--c-foreground), white 2%);
+    background-color: color-mix(in hsl shorter hue, var(--c-grey-500), black 8%);
 }
 
 .btn-danger {
@@ -639,6 +672,17 @@ input:focus, textarea:focus, select:focus {
 
 .btn-danger:hover {
     background-color: color-mix(in hsl shorter hue, var(--c-red), black 8%);
+}
+
+.btn-danger-2 {
+    display: grid;
+    align-items: center;
+    padding: 2px 12px;
+    border: 1px solid var(--c-red);
+}
+
+.btn-danger-2:hover {
+    background-color: color-mix(in hsl shorter hue, var(--c-grey-600), black 8%);
 }
 
 .plus-btn {
@@ -660,7 +704,8 @@ input:focus, textarea:focus, select:focus {
     transform: scale(0.99);
 }
 
-.plus-icon {
+.plus-icon,
+.trash-icon {
     width: 20px;
     height: 20px;
     color: var(--c-grey-300);
@@ -668,4 +713,8 @@ input:focus, textarea:focus, select:focus {
     stroke-linecap: round;
     stroke-linejoin: round;
     fill: none;
+}
+
+.trash-icon {
+    color: color-mix(in hsl shorter hue, var(--c-red), black 20%);
 }

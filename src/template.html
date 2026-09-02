@@ -91,7 +91,10 @@
                     </div>
                 </div>
                 <div class="form-actions">
-                    <button type="button" class="btn btn-neutral" id="edit-task-cancel">Cancel</button>
+                    <button class="btn btn-danger-2" id="edit-task-delete">
+                        <svg class="trash-icon"><use href="./assets/lucide-sprite.svg#trash-2"></svg>
+                    </button>
+                    <button class="btn btn-neutral" id="edit-task-cancel">Cancel</button>
                     <button type="submit" class="btn btn-primary" id="submit">Save task</button>
                 </div>
             </form>
@@ -189,8 +192,8 @@
         </div>
     </dialog>
     <ul class="context-menu hidden" id="project-context-menu">
-        <li><button type="button" id="context-edit-btn">Edit project</button></li>
-        <li><button type="button" id="context-delete-btn">Delete project</button></li>
+        <li><button id="context-edit-btn">Edit project</button></li>
+        <li><button id="context-delete-btn">Delete project</button></li>
     </ul>
 </body>
 </html>

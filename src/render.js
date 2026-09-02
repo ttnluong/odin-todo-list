@@ -305,7 +305,10 @@ export function displayTaskEditor(taskId) {
     document.getElementById("edit-task-title").value = task.title;
     document.getElementById("edit-task-description").value = task.description || "";
     document.getElementById("edit-task-due").value = task.dueDate || "";
-    document.getElementById("edit-task-priority").value = task.priority;
+    
+    const prioritySelect = document.getElementById("edit-task-priority");
+    prioritySelect.value = task.priority;
+    prioritySelect.dataset.priority = task.priority.toLowerCase();
 
     const projectSelect = document.getElementById("edit-task-project");
     projectSelect.innerHTML = '<option value="">Unassigned</option>';
