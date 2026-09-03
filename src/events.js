@@ -185,9 +185,10 @@ function submitTask() {
         const dueDate = document.getElementById("task-due").value;
         const priority = document.getElementById("task-priority").value;
         const projectId = document.getElementById("task-project").value || null;
+        const notes = document.getElementById("task-notes").value.trim();
 
         const checklist = collectChecklistFromForm("#task-checklist-items");
-        addTaskToProject(projectId, title, description, dueDate, priority, checklist);
+        addTaskToProject(projectId, title, description, dueDate, priority, notes, checklist);
         refresh();
 
         document.getElementById("task-modal").close();
@@ -219,38 +220,39 @@ function checklistEvents(containerSelector, addBtnSelector) {
 }
 
 function editTask() {
-  const taskList = document.getElementById("tasks-list");
-  const editForm = document.getElementById("edit-task-form");
+    const taskList = document.getElementById("tasks-list");
+    const editForm = document.getElementById("edit-task-form");
 
-  taskList.addEventListener("click", (e) => {
-    if (e.target.classList.contains("task-checkbox")) return;
-    const card = e.target.closest(".card-task");
-    if (card) {
-      displayTaskEditor(card.dataset.id);
-    }
-  });
-
-  editForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const taskId = editForm.dataset.editingId;
-
-    updateTask(taskId, {
-      title: document.getElementById("edit-task-title").value.trim(),
-      description: document.getElementById("edit-task-description").value.trim(),
-      dueDate: document.getElementById("edit-task-due").value,
-      priority: document.getElementById("edit-task-priority").value,
-      projectId: document.getElementById("edit-task-project").value || null,
-      checklist: collectChecklistFromForm("#edit-task-checklist-items")
+    taskList.addEventListener("click", (e) => {
+        if (e.target.classList.contains("task-checkbox")) return;
+        const card = e.target.closest(".card-task");
+        if (card) {
+            displayTaskEditor(card.dataset.id);
+        }
     });
 
-    document.activeElement.blur();
-    displayTasks();
-  });
+    editForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const taskId = editForm.dataset.editingId;
 
-  document.getElementById("edit-task-cancel").addEventListener("click", () => {
-    editForm.reset();
-    displayTaskEditor();
-  });
+        updateTask(taskId, {
+            title: document.getElementById("edit-task-title").value.trim(),
+            description: document.getElementById("edit-task-description").value.trim(),
+            dueDate: document.getElementById("edit-task-due").value,
+            priority: document.getElementById("edit-task-priority").value,
+            projectId: document.getElementById("edit-task-project").value || null,
+            notes: document.getElementById("edit-task-notes").value.trim(),
+            checklist: collectChecklistFromForm("#edit-task-checklist-items")
+        });
+
+        document.activeElement.blur();
+        displayTasks();
+     });
+
+    document.getElementById("edit-task-cancel").addEventListener("click", () => {
+        editForm.reset();
+        displayTaskEditor();
+    });
 }
 
 function addQuickTask() {

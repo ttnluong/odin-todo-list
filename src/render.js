@@ -305,6 +305,7 @@ export function displayTaskEditor(taskId) {
     document.getElementById("edit-task-title").value = task.title;
     document.getElementById("edit-task-description").value = task.description || "";
     document.getElementById("edit-task-due").value = task.dueDate || "";
+    document.getElementById("edit-task-notes").value = task.notes || "";
 
     const prioritySelect = document.getElementById("edit-task-priority");
     prioritySelect.value = task.priority;

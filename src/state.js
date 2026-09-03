@@ -78,20 +78,21 @@ export function deleteProject(id) {
 // ==========================================
 
 class Task {
-    constructor(projectId, title, description, dueDate, priority, checklist) {
+    constructor(projectId, title, description, dueDate, priority, notes, checklist) {
         this.id = crypto.randomUUID();
         this.projectId = projectId;
         this.title = title;
         this.description = description;
         this.dueDate = dueDate;
         this.priority = priority;
-        this.done = false;
+        this.notes = notes;
         this.checklist = checklist;
+        this.done = false;
     }
 }
 
-export function addTaskToProject(projectId, title, description, dueDate, priority, checklist = []) {
-    const task = new Task(projectId, title, description, dueDate, priority, checklist);
+export function addTaskToProject(projectId, title, description, dueDate, priority, notes, checklist = []) {
+    const task = new Task(projectId, title, description, dueDate, priority, notes, checklist);
     tasks.push(task);
     return task;
 }
@@ -151,4 +152,36 @@ export function deleteTask(id) {
     const index = tasks.findIndex(task => task.id === id);
     if (index === -1) return;
     tasks.splice(index, 1);
+}
+
+// examples
+// ==========================================
+
+export function addExamples() {
+    if (projects.length || tasks.length) return; // don't reseed if data already exists
+
+    const work = addProjectToList("Work", "Tasks related to my job", "#BF63F3");
+    const personal = addProjectToList("Personal", "Life admin and personal goals", "#2ABB7F");
+    const learning = addProjectToList("Learning", "Courses and skills to pick up", "#42B2D7");
+
+    const dayOffset = (n) => new Date(Date.now() + n * 86400000).toISOString().split("T")[0];
+
+    const today = dayOffset(0);
+    const tomorrow = dayOffset(1);
+    const overdue = dayOffset(-4);
+    const coming = dayOffset(14);
+
+    addTaskToProject(work.id, "Finish quarterly report", "Include Q3 numbers and forecast", today, "High", "",
+        [{ id: crypto.randomUUID(), text: "Gather sales data", done: true },
+         { id: crypto.randomUUID(), text: "Write summary", done: false }]);
+
+    addTaskToProject(work.id, "Reply to client emails", "", tomorrow, "Medium", "");
+
+    addTaskToProject(personal.id, "Book dentist appointment", "", overdue, "Low", "Call before 11am");
+
+    addTaskToProject(learning.id, "Finish CSS grid course", "Module 4 onward", coming, "Medium", "",
+        [{ id: crypto.randomUUID(), text: "Watch lesson 5", done: false },
+         { id: crypto.randomUUID(), text: "Do the practice exercise", done: false }]);
+
+    addTaskToProject(null, "Unassigned quick task", "", "", "Low", ""); // no project, tests the "Unassigned" view
 }
