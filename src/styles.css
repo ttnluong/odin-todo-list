@@ -320,6 +320,11 @@ main header button {
     border-bottom: 1px solid var(--c-grey-700);
 }
 
+.card-task:hover {
+    background-color: var(--c-fg-primary);
+    cursor: pointer;
+}
+
 .task-checkbox {
     justify-self: center;
     position: relative;

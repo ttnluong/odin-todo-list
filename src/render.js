@@ -133,7 +133,7 @@ function createTaskCard(task, active) {
 
     const taskPriority = document.createElement("span");
     taskPriority.textContent = task.priority;
-    taskPriority.dataset.priority = task.priority.toLowerCase();
+    if (!task.done) taskPriority.dataset.priority = task.priority.toLowerCase();
 
     const taskChecklist = document.createElement("span");
     const progress = getChecklistProgress(task);
