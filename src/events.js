@@ -34,54 +34,57 @@ export function refresh() {
   displayTasks();
 }
 
+// projects
+// ==========================================
+
 function openAddProjectModal() {
-  document.getElementById("add-project-btn").addEventListener("click", () => {
-    openProjectModalForAdd();
-  });
+    document.getElementById("add-project-btn").addEventListener("click", () => {
+        openProjectModalForAdd();
+    });
 }
 
 function projectContextMenu() {
-  const sidebar = document.getElementById("sidebar");
-  const contextMenu = document.getElementById("project-context-menu");
-  let targetProjectId = null;
-  let activeMoreBtn = null;
+    const sidebar = document.getElementById("sidebar");
+    const contextMenu = document.getElementById("project-context-menu");
+    let targetProjectId = null;
+    let activeMoreBtn = null;
 
-  sidebar.addEventListener("click", (e) => {
-    const moreBtn = e.target.closest(".sidebar-more-btn");
-    if (!moreBtn) return;
+    sidebar.addEventListener("click", (e) => {
+        const moreBtn = e.target.closest(".sidebar-more-btn");
+        if (!moreBtn) return;
 
-    e.stopPropagation();
-    targetProjectId = moreBtn.dataset.id;
-    activeMoreBtn = moreBtn;
-    activeMoreBtn.classList.add("menu-open");
+        e.stopPropagation();
+        targetProjectId = moreBtn.dataset.id;
+        activeMoreBtn = moreBtn;
+        activeMoreBtn.classList.add("menu-open");
 
-    const rect = moreBtn.getBoundingClientRect();
-    contextMenu.style.top = `${rect.bottom + 4}px`;
-    contextMenu.style.left = `${rect.left}px`;
-    contextMenu.classList.remove("hidden");
-  });
+        const rect = moreBtn.getBoundingClientRect();
+        contextMenu.style.top = `${rect.bottom + 4}px`;
+        contextMenu.style.left = `${rect.left}px`;
+        contextMenu.classList.remove("hidden");
+    });
 
-  function closeMenu() {
-    contextMenu.classList.add("hidden");
-    if (activeMoreBtn) {
-      activeMoreBtn.classList.remove("menu-open"); // let it fade back to hover-only
-      activeMoreBtn = null;
+    function closeMenu() {
+        contextMenu.classList.add("hidden");
+        if (activeMoreBtn) {
+        activeMoreBtn.classList.remove("menu-open"); // let it fade back to hover-only
+        activeMoreBtn = null;
+        }
     }
-  }
 
-  document.getElementById("context-edit-btn").addEventListener("click", () => {
-    closeMenu();
-    openProjectModalForEdit(targetProjectId);
-  });
+    document.getElementById("context-edit-btn").addEventListener("click", () => {
+        closeMenu();
+        openProjectModalForEdit(targetProjectId);
+    });
 
-  document.getElementById("context-delete-btn").addEventListener("click", () => {
-    closeMenu();
-    displayDeleteProjectModal(targetProjectId);
-  });
+    document.getElementById("context-delete-btn").addEventListener("click", () => {
+        closeMenu();
+        displayDeleteProjectModal(targetProjectId);
+    });
 
-  document.addEventListener("click", () => {
-    closeMenu();
-  });
+    document.addEventListener("click", () => {
+        closeMenu();
+    });
 }
 
 function selectProjectColor() {
@@ -98,11 +101,11 @@ function selectProjectColor() {
 }
 
 export function resetColorPicker() {
-  const defaultSwatch = document.querySelector(".color-swatch");
-  document.getElementById("project-color").value = defaultSwatch.dataset.color;
+    const defaultSwatch = document.querySelector(".color-swatch");
+    document.getElementById("project-color").value = defaultSwatch.dataset.color;
 
-  document.querySelectorAll(".color-swatch").forEach(swatch => swatch.classList.remove("selected"));
-  defaultSwatch.classList.add("selected");
+    document.querySelectorAll(".color-swatch").forEach(swatch => swatch.classList.remove("selected"));
+    defaultSwatch.classList.add("selected");
 }
 
 function submitProject() {
@@ -130,12 +133,12 @@ function submitProject() {
 }
 
 function resetProjectModal() {
-  const modal = document.getElementById("project-modal");
+    const modal = document.getElementById("project-modal");
 
-  modal.addEventListener("close", () => {
-    document.getElementById("project-form").reset();
-    resetColorPicker();
-  });
+    modal.addEventListener("close", () => {
+        document.getElementById("project-form").reset();
+        resetColorPicker();
+    });
 }
 
 function selectFilter() {
@@ -149,6 +152,9 @@ function selectFilter() {
         }
     });
 }
+
+// tasks
+// ==========================================
 
 function openTaskModal() {
     document.getElementById("add-task-btn").addEventListener("click", () => {
@@ -262,6 +268,9 @@ function editTaskTitleInline() {
         editTaskTitle(card, task);
     });
 }
+
+// modals
+// ==========================================
 
 function deleteItemEvents() {
     const itemDeleteBtn = document.getElementById("item-delete-btn");

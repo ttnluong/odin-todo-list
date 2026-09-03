@@ -697,8 +697,7 @@ option[value="high"] { color: var(--c-accent-red); }
     display: grid;
     align-items: center;
     padding: 6px 12px;
-    /* border: 1px solid var(--c-grey-500);
-    background-color: var(--c-grey-700); */
+    background-color: color-mix(in hsl shorter hue, var(--c-fg-primary), black 8%);
 }
 
 .btn-neutral-nofill:hover {
@@ -739,6 +738,10 @@ option[value="high"] { color: var(--c-accent-red); }
 
 .plus-btn:hover {
     background-color: var(--c-bg-secondary);
+}
+
+#quick-add-btn:hover {
+    background-color: color-mix(in hsl shorter hue, var(--c-bg-secondary), white 1.1%);
 }
 
 .plus-btn:active {
