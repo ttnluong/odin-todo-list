@@ -112,7 +112,7 @@ function getDueDateDiff(dueDateStr) {
     const dueDate = new Date(year, month - 1, day);
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    return { dueDate, today, diffDays: Math.round((dueDate - today) / 86400000) };
+    return { dueDate, today, diffDays: Math.round((dueDate - today) / (1000 * 60 * 60 * 24)) };
 }
 
 function formatDueDate(dueDateStr) {
