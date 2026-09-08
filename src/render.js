@@ -1,24 +1,26 @@
-import { 
-    getViews, 
-    getProjects, 
-    getActiveFilter, 
-    getFilteredTasks , 
-    getProjectById, 
-    getTaskById,
-    addTaskToProject,
-    getTaskCountPerFilter,
-    getChecklistProgress,
-    updateTask
-} from "./state.js";
+// import { 
+//     getViews, 
+//     getProjects, 
+//     getActiveFilter, 
+//     getFilteredTasks , 
+//     getProjectById, 
+//     getTaskById,
+//     addTaskToProject,
+//     getTaskCountPerFilter,
+//     getChecklistProgress,
+//     updateTask
+// } from "./state.js";
+
+import * as state from "./state.js"
 
 import {
     refresh
 } from "./events.js";
 
+import spriteUrl from "./assets/lucide-sprite.svg";
+
 // sidebar
 // ==========================================
-
-import spriteUrl from "./assets/lucide-sprite.svg";
 
 function createIcon(iconId, color) {
     const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
@@ -54,7 +56,7 @@ function createSidebarItem(item, activeId) {
     const endSlot = document.createElement("div");
     endSlot.classList.add("sidebar-end-slot");
 
-    const taskCount = getTaskCountPerFilter(item.id);
+    const taskCount = state.getTaskCountPerFilter(item.id);
     if (taskCount > 0) {
         const count = document.createElement("span");
         count.classList.add("sidebar-count");
@@ -83,22 +85,62 @@ function displaySidebarList(container, items, activeId) {
 }
 
 export function displaySidebar() {
-    const active = getActiveFilter();
-    displaySidebarList(".views-list", getViews(), active?.id);
-    displaySidebarList(".projects-list", getProjects(), active?.id);
+    const active = state.getActiveFilter();
+    displaySidebarList(".views-list", state.getViews(), active?.id);
+    displaySidebarList(".projects-list", state.getProjects(), active?.id);
 }
 
 // header main
 // ==========================================
 
 export function displayHeader() {
-    const active = getActiveFilter();
+    const active = state.getActiveFilter();
 
     const headerTitle = document.getElementById("header-title");
     const headerDescription = document.getElementById("header-description");
 
     headerTitle.textContent = active.title;
     headerDescription.textContent = active.description;
+}
+
+// due date helpers
+// ==========================================
+
+function getDueDateDiff(dueDateStr) {
+    if (!dueDateStr) return null;
+    const [year, month, day] = dueDateStr.split("-").map(Number);
+    const dueDate = new Date(year, month - 1, day);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    return { dueDate, today, diffDays: Math.round((dueDate - today) / 86400000) };
+}
+
+function formatDueDate(dueDateStr) {
+    const diff = getDueDateDiff(dueDateStr);
+    if (!diff) return "";
+    const { dueDate, today, diffDays } = diff;
+
+    if (diffDays === 0) return "Today";
+    if (diffDays === 1) return "Tomorrow";
+    if (diffDays === -1) return "Yesterday";
+
+    const isCurrentYear = dueDate.getFullYear() === today.getFullYear();
+    return dueDate.toLocaleDateString("en-GB", {
+        day: "numeric",
+        month: "short",
+        year: isCurrentYear ? undefined : "numeric"
+    });
+}
+
+function getDueDateStatus(dueDateStr) {
+    const diff = getDueDateDiff(dueDateStr);
+    if (!diff) return null;
+    const { diffDays } = diff;
+    
+    if (diffDays < 0) return "overdue";
+    if (diffDays === 0) return "today";
+    if (diffDays <= 7) return "soon";
+    return "later";
 }
 
 // tasks list
@@ -120,7 +162,7 @@ function createTaskCard(task, active) {
     taskTitle.classList.add("task-title");
 
     const taskProjectTag = document.createElement("span");
-    const project = getProjectById(task.projectId);
+    const project = state.getProjectById(task.projectId);
     taskProjectTag.textContent = project ? project.title : "Unassigned";
     const showProjectTag = active?.id === "all" || active?.id === "today";
     taskProjectTag.classList.toggle("hidden-tag", !showProjectTag);
@@ -135,7 +177,7 @@ function createTaskCard(task, active) {
     if (!task.done) taskPriority.dataset.priority = task.priority.toLowerCase();
 
     const taskChecklist = document.createElement("span");
-    const progress = getChecklistProgress(task);
+    const progress = state.getChecklistProgress(task);
     taskChecklist.textContent = progress ? `${progress.done} / ${progress.total}` : "";
 
     taskCard.append(taskCheckbox, taskTitle, taskProjectTag, taskDueDate, taskPriority, taskChecklist);
@@ -143,50 +185,20 @@ function createTaskCard(task, active) {
     return taskCard;
 }
 
-function formatDueDate(dueDateStr) {
-    if (!dueDateStr) return "";
-    const [year, month, day] = dueDateStr.split("-").map(Number);
-    const dueDate = new Date(year, month - 1, day);
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    const diffDays = Math.round((dueDate - today) / 86400000);
-
-    if (diffDays === 0) return "Today";
-    if (diffDays === 1) return "Tomorrow";
-    if (diffDays === -1) return "Yesterday";
-
-    const isCurrentYear = dueDate.getFullYear() === today.getFullYear();
-    return dueDate.toLocaleDateString("en-GB", {
-        day: "numeric",
-        month: "short",
-        year: isCurrentYear ? undefined : "numeric"
-    });
-}
-
-function getDueDateStatus(dueDateStr) {
-    if (!dueDateStr) return null;
-    const [year, month, day] = dueDateStr.split("-").map(Number);
-    const dueDate = new Date(year, month - 1, day);
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    const diffDays = Math.round((dueDate - today) / 86400000);
-
-    if (diffDays < 0) return "overdue";
-    if (diffDays === 0) return "today";
-    if (diffDays <= 7) return "soon";
-    return "later";
-}
 
 export function displayTasks() {
     const container = document.getElementById("tasks-list");
     container.innerHTML = "";
-    const active = getActiveFilter();
+    const active = state.getActiveFilter();
 
     const header = document.getElementById("task-list-header");
     header.classList.toggle("show-project", active?.id === "all" || active?.id === "today");
 
-    getFilteredTasks().forEach(task => container.appendChild(createTaskCard(task, active)));
+    state.getFilteredTasks().forEach(task => container.appendChild(createTaskCard(task, active)));
 }
+
+// editable inline title input (also for quick-add)
+// ==========================================
 
 export function createTaskTitleInput(currentValue, onCommit) {
     const input = document.createElement("input");
@@ -224,7 +236,7 @@ export function editTaskTitle(taskCard, task) {
     if (!titleEl) return;
 
     const input = createTaskTitleInput(task.title, (value) => {
-        if (value) updateTask(task.id, { title: value });
+        if (value) state.updateTask(task.id, { title: value });
         displayTasks(); // re-render to swap back to <h2>, whether committed or cancelled
 
         const editForm = document.getElementById("edit-task-form");
@@ -242,7 +254,7 @@ export function editTaskTitle(taskCard, task) {
 
 function addProjectSelect(select, selectedProjectId) {
     select.innerHTML = '<option value="">Unassigned</option>';
-    getProjects().forEach(project => {
+    state.getProjects().forEach(project => {
         const option = document.createElement("option");
         option.value = project.id;
         option.textContent = project.title;
@@ -252,14 +264,14 @@ function addProjectSelect(select, selectedProjectId) {
 }
 
 export function fillProjectSelect() {
+    const active = state.getActiveFilter();
     const select = document.getElementById("task-project");
-    const active = getActiveFilter();
     addProjectSelect(select, active?.type === "project" ? active.id : "");
 }
 
 export function displayTaskEditor(taskId) {
     const form = document.getElementById("edit-task-form");
-    const task = taskId ? getTaskById(taskId) : null;
+    const task = taskId ? state.getTaskById(taskId) : null;
 
     if (!task) {
         form.classList.add("hidden");
@@ -363,7 +375,7 @@ export function openProjectModalForAdd() {
 
 
 export function openProjectModalForEdit(projectId) {
-    const project = getProjectById(projectId);
+    const project = state.getProjectById(projectId);
     if (!project) return;
 
     document.getElementById("project-modal-title").textContent = "Edit project";
@@ -392,7 +404,7 @@ export function displayDeleteModal({title, message, id, type}) {
 }
 
 export function displayDeleteProjectModal(projectId) {
-    const project = getProjectById(projectId);
+    const project = state.getProjectById(projectId);
     if (!project) return;
 
     displayDeleteModal({
@@ -404,7 +416,7 @@ export function displayDeleteProjectModal(projectId) {
 }
 
 export function displayDeleteTaskModal(taskId) {
-    const task = getTaskById(taskId);
+    const task = state.getTaskById(taskId);
     if (!task) return;
 
     displayDeleteModal({
