@@ -7,7 +7,6 @@ import {
     getTaskById,
     toggleTaskDone, 
     updateTask,
-    toggleChecklistItem,
     deleteTask
 } from "./state.js";
 
@@ -16,13 +15,13 @@ import {
     displayHeader, 
     displayTasks, 
     displayTaskEditor, 
-    fillProjectSelect, 
+    fillProjectSelect,
     openProjectModalForAdd,
     openProjectModalForEdit,
     renderChecklistRows,
     addChecklistRow,
     collectChecklistFromForm,
-    displayQuickTask,
+    createTaskTitleInput,
     editTaskTitle,
     displayDeleteProjectModal,
     displayDeleteTaskModal
@@ -98,14 +97,6 @@ function selectProjectColor() {
         swatch.classList.add("selected");
     }
 });
-}
-
-export function resetColorPicker() {
-    const defaultSwatch = document.querySelector(".color-swatch");
-    document.getElementById("project-color").value = defaultSwatch.dataset.color;
-
-    document.querySelectorAll(".color-swatch").forEach(swatch => swatch.classList.remove("selected"));
-    defaultSwatch.classList.add("selected");
 }
 
 function submitProject() {
@@ -253,6 +244,34 @@ function editTask() {
         editForm.reset();
         displayTaskEditor();
     });
+}
+
+function createQuickTask() {
+    const quickTask = document.createElement("article");
+    quickTask.classList.add("card-task", "card-task-new");
+
+    const titleInput = createTaskTitleInput("", (value) => {
+        quickTask.remove(); // always remove the temp card first — either it's replaced by a real one via refresh(), or fully discarded
+        if (!value) return; // Escape or empty on blur = cancel, nothing created
+
+        const active = getActiveFilter();
+        const projectId = active?.type === "project" ? active.id : null;
+        addTaskToProject(projectId, value, "", "", "");
+        refresh();
+        displayQuickTask(); // re-open a fresh one for rapid entry
+    });
+
+    quickTask.appendChild(titleInput);
+    return quickTask;
+}
+
+function displayQuickTask() {
+    const existing = document.querySelector(".card-task-new");
+    if (existing) { existing.querySelector("input").focus(); return; }
+
+    const tasksList = document.querySelector(".tasks-list");
+    tasksList.appendChild(createQuickTask());
+    tasksList.querySelector(".card-task-new input").focus();
 }
 
 function addQuickTask() {

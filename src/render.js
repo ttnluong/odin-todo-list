@@ -12,7 +12,6 @@ import {
 } from "./state.js";
 
 import {
-    resetColorPicker,
     refresh
 } from "./events.js";
 
@@ -189,36 +188,7 @@ export function displayTasks() {
     getFilteredTasks().forEach(task => container.appendChild(createTaskCard(task, active)));
 }
 
-export function createQuickTask() {
-    const quickTask = document.createElement("article");
-    quickTask.classList.add("card-task", "card-task-new");
-
-    const titleInput = createTaskTitleInput("", (value) => {
-        quickTask.remove(); // always remove the temp card first — either it's replaced by a real one via refresh(), or fully discarded
-        if (!value) return; // Escape or empty on blur = cancel, nothing created
-
-        const active = getActiveFilter();
-        const projectId = active?.type === "project" ? active.id : null;
-        addTaskToProject(projectId, value, "", "", "");
-        refresh();
-        displayQuickTask(); // re-open a fresh one for rapid entry
-    });
-
-    quickTask.appendChild(titleInput);
-    return quickTask;
-}
-
-export function displayQuickTask() {
-    const existing = document.querySelector(".card-task-new");
-    if (existing) { existing.querySelector("input").focus(); return; }
-
-    const tasksList = document.querySelector(".tasks-list");
-    tasksList.appendChild(createQuickTask());
-    tasksList.querySelector(".card-task-new input").focus();
-}
-
-
-function createTaskTitleInput(currentValue, onCommit) {
+export function createTaskTitleInput(currentValue, onCommit) {
     const input = document.createElement("input");
     input.type = "text";
     input.classList.add("task-title-input");
@@ -270,24 +240,21 @@ export function editTaskTitle(taskCard, task) {
 // taskform
 // ==========================================
 
+function addProjectSelect(select, selectedProjectId) {
+    select.innerHTML = '<option value="">Unassigned</option>';
+    getProjects().forEach(project => {
+        const option = document.createElement("option");
+        option.value = project.id;
+        option.textContent = project.title;
+        select.appendChild(option);
+    });
+    select.value = selectedProjectId ?? "";
+}
+
 export function fillProjectSelect() {
-  const select = document.getElementById("task-project");
-  const active = getActiveFilter();
-
-  select.innerHTML = '<option value="">Unassigned</option>';
-
-  getProjects().forEach(project => {
-    const option = document.createElement("option");
-    option.value = project.id;
-    option.textContent = project.title;
-    select.appendChild(option);
-  });
-
-  if (active?.type === "project") {
-    select.value = active.id;
-  } else {
-    select.value = "";
-  }
+    const select = document.getElementById("task-project");
+    const active = getActiveFilter();
+    addProjectSelect(select, active?.type === "project" ? active.id : "");
 }
 
 export function displayTaskEditor(taskId) {
@@ -311,15 +278,7 @@ export function displayTaskEditor(taskId) {
     prioritySelect.value = task.priority;
     prioritySelect.dataset.priority = task.priority.toLowerCase();
 
-    const projectSelect = document.getElementById("edit-task-project");
-    projectSelect.innerHTML = '<option value="">Unassigned</option>';
-    getProjects().forEach(project => {
-        const option = document.createElement("option");
-        option.value = project.id;
-        option.textContent = project.title;
-        if (project.id === task.projectId) option.selected = true;
-        projectSelect.appendChild(option);
-    });
+    addProjectSelect(document.getElementById("edit-task-project"), task.projectId);
     
     const checklistStart = task.checklist?.length ? task.checklist : [{id: crypto.randomUUID(), text: "", done: false }];
     renderChecklistRows("#edit-task-checklist-items", checklistStart);
@@ -387,6 +346,22 @@ export function collectChecklistFromForm(containerSelector) {
 // modals
 // ==========================================
 
+export function resetColorPicker() {
+    const defaultSwatch = document.querySelector(".color-swatch");
+    document.getElementById("project-color").value = defaultSwatch.dataset.color;
+
+    document.querySelectorAll(".color-swatch").forEach(swatch => swatch.classList.remove("selected"));
+    defaultSwatch.classList.add("selected");
+}
+
+export function openProjectModalForAdd() {
+    document.getElementById("project-modal-title").textContent = "Add project";
+    document.getElementById("project-form").reset();
+    document.getElementById("project-form").dataset.editingId = "";
+    resetColorPicker();
+}
+
+
 export function openProjectModalForEdit(projectId) {
     const project = getProjectById(projectId);
     if (!project) return;
@@ -402,13 +377,6 @@ export function openProjectModalForEdit(projectId) {
 
     document.getElementById("project-form").dataset.editingId = projectId;
     document.getElementById("project-modal").showModal();
-}
-
-export function openProjectModalForAdd() {
-    document.getElementById("project-modal-title").textContent = "Add project";
-    document.getElementById("project-form").reset();
-    document.getElementById("project-form").dataset.editingId = "";
-    resetColorPicker();
 }
 
 export function displayDeleteModal({title, message, id, type}) {

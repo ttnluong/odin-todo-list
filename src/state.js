@@ -137,12 +137,6 @@ export function toggleTaskDone(taskId) {
   }
 }
 
-export function toggleChecklistItem(taskId, itemId) {
-    const task = getTaskById(taskId);
-    const item = task?.checklist.find(item => item.id === itemId);
-    if (item) item.done = !item
-}
-
 export function getChecklistProgress(task) {
     if (!task.checklist?.length) return null;
     return {done: task.checklist.filter(item => item.done).length, total: task.checklist.length};
