@@ -29,19 +29,21 @@ class Project {
 export function addProjectToList(title, description, color) {
     const project = new Project(title, description, color);
     projects.push(project);
+    saveState();
     return project;
 }
 
 export function updateProject(id, updates) {
-  const project = getProjectById(id);
-  if (project) {
-    Object.assign(project, updates);
-  }
-  return project;
+    const project = getProjectById(id);
+    if (project) {
+        Object.assign(project, updates);
+    }
+    saveState();
+    return project;
 }
 
 export function getViews() {
-  return views;
+    return views;
 }
 
 export function getProjects() {
@@ -49,7 +51,7 @@ export function getProjects() {
 }
 
 export function getProjectById(id) {
-  return projects.find(project => project.id === id);
+    return projects.find(project => project.id === id);
 }
 
 export function setActiveFilter(id) {
@@ -62,16 +64,17 @@ export function getActiveFilter() {
 }
 
 export function deleteProject(id) {
-  const index = projects.findIndex(project => project.id === id);
-  if (index === -1) return;
+    const index = projects.findIndex(project => project.id === id);
+    if (index === -1) return;
 
-  projects.splice(index, 1);
+    projects.splice(index, 1);
 
-  for (let i = tasks.length - 1; i >= 0; i--) {
-    if (tasks[i].projectId === id) {
-      tasks.splice(i, 1);
+    for (let i = tasks.length - 1; i >= 0; i--) {
+        if (tasks[i].projectId === id) {
+            tasks.splice(i, 1);
+        }
     }
-  }
+    saveState();    
 }
 
 // tasks
@@ -94,19 +97,21 @@ class Task {
 export function addTaskToProject(projectId, title, description, dueDate, priority, notes, checklist = []) {
     const task = new Task(projectId, title, description, dueDate, priority, notes, checklist);
     tasks.push(task);
+    saveState();
     return task;
 }
 
 export function getTaskById(id) {
-  return tasks.find(task => task.id === id);
+    return tasks.find(task => task.id === id);
 }
 
 export function updateTask(id, updates) {
-  const task = getTaskById(id);
-  if (task) {
-    Object.assign(task, updates);
-  }
-  return task;
+    const task = getTaskById(id);
+    if (task) {
+        Object.assign(task, updates);
+    }
+    saveState();
+    return task;
 }
 
 export function getFilteredTasks(filterId) {
@@ -131,10 +136,11 @@ export function getTaskCountPerFilter(filterId) {
 }
 
 export function toggleTaskDone(taskId) {
-  const task = getTaskById(taskId);
-  if (task) {
-    task.done = !task.done;
-  }
+    const task = getTaskById(taskId);
+    if (task) {
+        task.done = !task.done;
+    }
+    saveState();
 }
 
 export function getChecklistProgress(task) {
@@ -146,6 +152,22 @@ export function deleteTask(id) {
     const index = tasks.findIndex(task => task.id === id);
     if (index === -1) return;
     tasks.splice(index, 1);
+    saveState();
+}
+
+// local storage
+// ==========================================
+
+function saveState() {
+    localStorage.setItem("projects", JSON.stringify(projects));
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+}
+
+export function loadState() {
+    const projectData = JSON.parse(localStorage.getItem("projects")) || [];
+    const taskData = JSON.parse(localStorage.getItem("tasks")) || [];
+    projects.push(...projectData);
+    tasks.push(...taskData);
 }
 
 // examples

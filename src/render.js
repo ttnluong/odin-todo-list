@@ -13,10 +13,6 @@
 
 import * as state from "./state.js"
 
-import {
-    refresh
-} from "./events.js";
-
 import spriteUrl from "./assets/lucide-sprite.svg";
 
 // sidebar
@@ -139,6 +135,7 @@ function getDueDateStatus(dueDateStr) {
     
     if (diffDays < 0) return "overdue";
     if (diffDays === 0) return "today";
+
     if (diffDays <= 7) return "soon";
     return "later";
 }

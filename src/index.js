@@ -1,8 +1,8 @@
 import "./styles.css";
-import { addProjectToList, addTaskToProject, addExamples } from "./state.js";
+import { addExamples, loadState } from "./state.js";
 import { refresh, attachEvents } from "./events.js";
-import { displaySidebar, displayHeader } from "./render.js";
 
+loadState();
 addExamples();
 refresh();
 attachEvents();

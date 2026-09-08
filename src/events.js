@@ -180,8 +180,8 @@ function submitTask() {
         const priority = document.getElementById("task-priority").value;
         const projectId = document.getElementById("task-project").value || null;
         const notes = document.getElementById("task-notes").value.trim();
-
         const checklist = render.collectChecklistFromForm("#task-checklist-items");
+        
         state.addTaskToProject(projectId, title, description, dueDate, priority, notes, checklist);
         refresh();
 
