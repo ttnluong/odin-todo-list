@@ -293,7 +293,7 @@ export function displayTaskEditor(taskId) {
     addProjectSelect(document.getElementById("edit-task-project"), task.projectId);
     
     const checklistStart = task.checklist?.length ? task.checklist : [{id: crypto.randomUUID(), text: "", done: false }];
-    renderChecklistRows("#edit-task-checklist-items", checklistStart);
+    displayChecklistRows("#edit-task-checklist-items", checklistStart);
     form.dataset.editingId = taskId;
 }
 
@@ -331,7 +331,7 @@ function createChecklistItemRow(item = { id: crypto.randomUUID(), text: "", done
     return row;
 }
 
-export function renderChecklistRows(containerSelector, items = []) {
+export function displayChecklistRows(containerSelector, items = []) {
     const container = document.querySelector(containerSelector);
     container.innerHTML = "";
     items.forEach(item => container.appendChild(createChecklistItemRow(item)));
@@ -366,7 +366,7 @@ export function resetColorPicker() {
     defaultSwatch.classList.add("selected");
 }
 
-export function openProjectModalForAdd() {
+export function displayProjectModalForAdd() {
     document.getElementById("project-modal-title").textContent = "Add project";
     document.getElementById("project-form").reset();
     document.getElementById("project-form").dataset.editingId = "";
@@ -374,7 +374,7 @@ export function openProjectModalForAdd() {
 }
 
 
-export function openProjectModalForEdit(projectId) {
+export function displayProjectModalForEdit(projectId) {
     const project = state.getProjectById(projectId);
     if (!project) return;
 
