@@ -174,11 +174,11 @@ export function loadState() {
 // ==========================================
 
 export function addExamples() {
-    if (projects.length || tasks.length) return; // don't reseed if data already exists
+    if (projects.length || tasks.length) return;
 
-    const work = addProjectToList("Work", "Tasks related to my job", "#BF63F3");
-    const personal = addProjectToList("Personal", "Life admin and personal goals", "#2ABB7F");
-    const learning = addProjectToList("Learning", "Courses and skills to pick up", "#42B2D7");
+    const portfolio = addProjectToList("Portfolio", "Todos for my portfolio website", "#AF59E1");
+    const learning = addProjectToList("Learning", "Courses and skills to pick up", "#4688EC");
+    const personal = addProjectToList("Personal", "General reminders", "#94C748");
 
     const dayOffset = (n) => new Date(Date.now() + n * 86400000).toISOString().split("T")[0];
 
@@ -186,18 +186,23 @@ export function addExamples() {
     const tomorrow = dayOffset(1);
     const overdue = dayOffset(-4);
     const coming = dayOffset(14);
+    const future = dayOffset(50);
 
-    addTaskToProject(work.id, "Finish quarterly report", "Include Q3 numbers and forecast", today, "High", "",
-        [{ id: crypto.randomUUID(), text: "Gather sales data", done: true },
-         { id: crypto.randomUUID(), text: "Write summary", done: false }]);
+    addTaskToProject(portfolio.id, "Add 2 more projects", "Include Q3 numbers and forecast", coming, "High", "",
+        [{ id: crypto.randomUUID(), text: "Todo list", done: true },
+         { id: crypto.randomUUID(), text: "Weather app", done: false }]);
 
-    addTaskToProject(work.id, "Reply to client emails", "", tomorrow, "Medium", "");
+    addTaskToProject(portfolio.id, "Update hero section", "", tomorrow, "", "");
 
-    addTaskToProject(personal.id, "Book dentist appointment", "", overdue, "Low", "Call before 11am");
+    addTaskToProject(learning.id, "Learn motion design", "", future, "Medium", ""),
+    
+    addTaskToProject(learning.id, "Finish The Odin Project Full Stack course", "Javascript course", "", "", "theodinproject.com",
+        [{ id: crypto.randomUUID(), text: "Intermediate HTML and CSS", done: true },
+         { id: crypto.randomUUID(), text: "Javascript", done: false },
+         { id: crypto.randomUUID(), text: "Advanced HTML and CSS", done: false },
+         { id: crypto.randomUUID(), text: "React", done: false }]);
 
-    addTaskToProject(learning.id, "Finish CSS grid course", "Module 4 onward", coming, "Medium", "",
-        [{ id: crypto.randomUUID(), text: "Watch lesson 5", done: false },
-         { id: crypto.randomUUID(), text: "Do the practice exercise", done: false }]);
+    addTaskToProject(personal.id, "Lookup gifts for Inez", "", overdue, "Low", "Order before wednesday");
 
-    addTaskToProject(null, "Unassigned quick task", "", "", "Low", ""); // no project, tests the "Unassigned" view
+    addTaskToProject(null, "Call mom", "", "", "", "Call before 11 am");
 }
