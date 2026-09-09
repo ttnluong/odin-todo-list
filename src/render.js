@@ -1,16 +1,3 @@
-// import { 
-//     getViews, 
-//     getProjects, 
-//     getActiveFilter, 
-//     getFilteredTasks , 
-//     getProjectById, 
-//     getTaskById,
-//     addTaskToProject,
-//     getTaskCountPerFilter,
-//     getChecklistProgress,
-//     updateTask
-// } from "./state.js";
-
 import * as state from "./state.js"
 
 import spriteUrl from "./assets/lucide-sprite.svg";
@@ -95,8 +82,8 @@ export function displayHeader() {
     const headerTitle = document.getElementById("header-title");
     const headerDescription = document.getElementById("header-description");
 
-    headerTitle.textContent = active.title;
-    headerDescription.textContent = active.description;
+    headerTitle.textContent = active?.title ?? "";
+    headerDescription.textContent = active?.description ?? "";
 }
 
 // due date helpers
@@ -279,9 +266,9 @@ export function displayTaskEditor(taskId) {
     form.classList.remove("hidden");
 
     document.getElementById("edit-task-title").value = task.title;
-    document.getElementById("edit-task-description").value = task.description || "";
-    document.getElementById("edit-task-due").value = task.dueDate || "";
-    document.getElementById("edit-task-notes").value = task.notes || "";
+    document.getElementById("edit-task-description").value = task.description ?? "";
+    document.getElementById("edit-task-due").value = task.dueDate ?? "";
+    document.getElementById("edit-task-notes").value = task.notes ?? "";
 
     const prioritySelect = document.getElementById("edit-task-priority");
     prioritySelect.value = task.priority;
@@ -377,7 +364,7 @@ export function displayProjectModalForEdit(projectId) {
 
     document.getElementById("project-modal-title").textContent = "Edit project";
     document.getElementById("project-title").value = project.title;
-    document.getElementById("project-description").value = project.description || "";
+    document.getElementById("project-description").value = project.description ?? "";
     document.getElementById("project-color").value = project.color;
 
     document.querySelectorAll(".color-swatch").forEach(swatch => {

@@ -1,32 +1,3 @@
-// import { 
-//     addProjectToList, 
-//     getActiveFilter,
-//     setActiveFilter, 
-//     deleteProject,
-//     addTaskToProject, 
-//     getTaskById,
-//     toggleTaskDone, 
-//     updateTask,
-//     deleteTask
-// } from "./state.js";
-
-// import { 
-//     displaySidebar, 
-//     displayHeader, 
-//     displayTasks, 
-//     displayTaskEditor, 
-//     fillProjectSelect,
-//     openProjectModalForAdd,
-//     openProjectModalForEdit,
-//     renderChecklistRows,
-//     addChecklistRow,
-//     collectChecklistFromForm,
-//     createTaskTitleInput,
-//     editTaskTitle,
-//     displayDeleteProjectModal,
-//     displayDeleteTaskModal
-// } from "./render.js";
-
 import * as state from "./state.js";
 import * as render from "./render.js";
 
@@ -181,7 +152,7 @@ function submitTask() {
         const projectId = document.getElementById("task-project").value || null;
         const notes = document.getElementById("task-notes").value.trim();
         const checklist = render.collectChecklistFromForm("#task-checklist-items");
-        
+
         state.addTaskToProject(projectId, title, description, dueDate, priority, notes, checklist);
         refresh();
 

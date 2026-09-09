@@ -59,8 +59,8 @@ export function setActiveFilter(id) {
 }
 
 export function getActiveFilter() {
-    return views.find(v => v.id === activeFilterId)
-        || projects.find(project => project.id === activeFilterId)
+    return views.find(view => view.id === activeFilterId)
+        || projects.find(project => project.id === activeFilterId);
 }
 
 export function deleteProject(id) {

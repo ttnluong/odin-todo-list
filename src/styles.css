@@ -132,6 +132,7 @@ ul {
 .sidebar-item:has(.sidebar-more-btn.menu-open):not(.active) {
     border-radius: 6px;
     background-color: var(--c-fg-primary);
+    cursor: pointer;
 }
 
 .sidebar-item.active {
