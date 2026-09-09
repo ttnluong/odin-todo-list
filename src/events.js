@@ -40,7 +40,7 @@ function projectContextMenu() {
     function closeMenu() {
         contextMenu.classList.add("hidden");
         if (activeMoreBtn) {
-        activeMoreBtn.classList.remove("menu-open"); // let it fade back to hover-only
+        activeMoreBtn.classList.remove("menu-open");
         activeMoreBtn = null;
         }
     }
@@ -223,14 +223,14 @@ function createQuickTask() {
     quickTask.classList.add("card-task", "card-task-new");
 
     const titleInput = render.createTaskTitleInput("", (value) => {
-        quickTask.remove(); // always remove the temp card first — either it's replaced by a real one via refresh(), or fully discarded
-        if (!value) return; // Escape or empty on blur = cancel, nothing created
+        quickTask.remove();
+        if (!value) return;
 
         const active = state.getActiveFilter();
         const projectId = active?.type === "project" ? active.id : null;
         state.addTaskToProject(projectId, value, "", "", "");
         refresh();
-        displayQuickTask(); // re-open a fresh one for rapid entry
+        displayQuickTask();
     });
 
     quickTask.appendChild(titleInput);
