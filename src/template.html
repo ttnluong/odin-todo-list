@@ -6,6 +6,11 @@
     <title>Todo List</title>
 </head>
 <body>
+    <div class="topbar" id="topbar">
+        <button class="sidebar-toggle-btn" id="sidebar-toggle-btn" aria-label="Toggle sidebar">
+            <svg class="menu-icon"><use href="./assets/lucide-sprite.svg#menu"></use></svg>
+        </button>
+    </div>
    <div class="container">
         <aside class="sidebar" id="sidebar">
             <section class="sidebar-views">
@@ -62,7 +67,7 @@
                     <hr>
                     <div class="form-content">
                         <label for="edit-task-title">Title *</label>
-                        <input type="text" id="edit-task-title" name="title" required>
+                        <textarea id="edit-task-title" name="title" required></textarea>
                     </div>
                     <div class="form-content">
                         <label for="edit-task-description">Description</label>

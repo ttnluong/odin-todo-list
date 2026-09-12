@@ -10,7 +10,7 @@ function createIcon(iconId, color) {
     svg.classList.add("sidebar-icon");
 
     if (color) {
-        svg.style.color = color; // sets the `color` property that currentColor reads from
+        svg.style.color = color;
     }
 
     const use = document.createElementNS("http://www.w3.org/2000/svg", "use");
@@ -204,7 +204,7 @@ export function createTaskTitleInput(currentValue, onCommit) {
             commitOnce(input.value.trim());
         }
         if (e.key === "Escape") {
-            commitOnce(null); // signal cancel
+            commitOnce(null);
         }
     });
 
@@ -221,11 +221,11 @@ export function editTaskTitle(taskCard, task) {
 
     const input = createTaskTitleInput(task.title, (value) => {
         if (value) state.updateTask(task.id, { title: value });
-        displayTasks(); // re-render to swap back to <h2>, whether committed or cancelled
+        displayTasks();
 
         const editForm = document.getElementById("edit-task-form");
         if (editForm.dataset.editingId === task.id) {
-            displayTaskEditor(task.id); // refresh sidebar if it's showing this same task
+            displayTaskEditor(task.id);
         }
     });
 

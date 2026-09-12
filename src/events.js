@@ -7,8 +7,9 @@ export function refresh() {
   render.displayTasks();
 }
 
-// projects
+// projects / sidebar
 // ==========================================
+
 
 function openProjectModalForAdd() {
     document.getElementById("add-project-btn").addEventListener("click", () => {
@@ -114,6 +115,21 @@ function selectFilter() {
         if (btn && !e.target.closest(".sidebar-more-btn")) {
             state.setActiveFilter(btn.dataset.id);
             refresh();
+        }
+    });
+}
+
+function toggleSidebar() {
+    const toggleBtn = document.getElementById("sidebar-toggle-btn");
+    const sidebar = document.getElementById("sidebar");
+
+    toggleBtn.addEventListener("click", () => {
+        sidebar.classList.toggle("open");
+    })
+
+    document.addEventListener("click", (event) => {
+        if (!sidebar.contains(event.target) && !toggleBtn.contains(event.target)) {
+            sidebar.classList.remove("open");
         }
     });
 }
@@ -301,6 +317,7 @@ function attachProjectEvents() {
     submitProject();
     resetProjectModal();
     selectFilter();
+    toggleSidebar();
 }
 
 function attachTaskEvents() {
