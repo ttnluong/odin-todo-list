@@ -226,11 +226,14 @@ function editTask() {
 
         document.activeElement.blur();
         render.displayTasks();
+        render.displayTaskEditor();
      });
 
-    document.getElementById("edit-task-cancel").addEventListener("click", () => {
-        editForm.reset();
-        render.displayTaskEditor();
+    ["edit-task-cancel-x", "edit-task-cancel-text"].forEach((id) => {
+        document.getElementById(id).addEventListener("click", () => {
+            editForm.reset();
+            render.displayTaskEditor();
+        });
     });
 }
 

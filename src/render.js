@@ -255,6 +255,7 @@ export function fillProjectSelect() {
 
 export function displayTaskEditor(taskId) {
     const form = document.getElementById("edit-task-form");
+    const formSidebar = document.querySelector(".task-form");
     const task = taskId ? state.getTaskById(taskId) : null;
 
     if (!task) {
@@ -264,6 +265,7 @@ export function displayTaskEditor(taskId) {
     }
 
     form.classList.remove("hidden");
+    formSidebar.classList.add("open");
 
     document.getElementById("edit-task-title").value = task.title;
     document.getElementById("edit-task-description").value = task.description ?? "";

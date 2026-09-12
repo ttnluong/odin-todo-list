@@ -82,16 +82,25 @@ dialog {
 /* BASE
 ====================================================== */
 
-body {
-    height: 100vh;
+html, body {
+    height: 100%;
     font-family: "Inter Variable";
     font-weight: 350;
     color: var(--c-text-default);
     background-color: var(--c-bg-primary);
 }
 
+.shell {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
 .container {
-    height: 100%;
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+    position: relative;
     display: grid;
     grid-template-columns: 0.65fr 3fr minmax(328px, 1fr);
     grid-template-areas: 
@@ -107,6 +116,7 @@ dialog {
 
 .sidebar {
     grid-area: sidebar;
+    min-width: 200px;
     display: grid;
     grid-auto-rows: min-content;
     gap: 40px;
@@ -123,7 +133,6 @@ ul {
 .sidebar-item {
     display: flex;
     align-items: center;
-    min-width: 180px;
     padding: 8px;
     font-size: 0.875rem;
     color: var(--c-text-muted);
@@ -239,10 +248,12 @@ ul {
 ====================================================== */
 
 .topbar {
+    flex-shrink: 0;
     display: none;
     width: 100%;
     padding: 14px 20px;
     border-bottom: 1px solid var(--c-grey-700);
+    background-color: var(--c-bg-primary);
 }
 
 .sidebar-toggle-btn {
@@ -565,8 +576,10 @@ input:focus, textarea:focus, select:focus {
 
 .task-form {
     grid-area: form;
+    height: 100%;
     padding: 20px 20px;
     border-left: 1px solid var(--c-grey-700);
+    background-color: var(--c-bg-primary);
 }
 
 .hidden {
@@ -834,21 +847,39 @@ option[value="high"] { color: var(--c-accent-red); }
         display: flex;
     }
 
-    #sidebar {
-        position: fixed;
+    .sidebar {
+        position: absolute;
         top: 0;
         left: 0;
-        height: 100vh;
-        z-index: 100;
+        height: 100%;
+        z-index: 5;
         transform: translateX(-100%);
         transition: transform 0.2s ease;
     }
 
-    #sidebar.open {
+    .sidebar.open {
         transform: translateX(0);
     }
 
     main {
         grid-column: 1 / span 2;
+    }
+}
+
+@media (width <= 1260px) {
+    .task-form {
+        position: absolute;
+        top: 0;
+        right: 0;
+        transform: translateX(100%);
+        transition: transform 0.2s ease;
+    }
+
+    .task-form.open {
+        transform: translateX(0);
+    }
+
+    main {
+        grid-column: 1 / span 3;
     }
 }
