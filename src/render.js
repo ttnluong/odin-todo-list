@@ -130,10 +130,11 @@ function getDueDateStatus(dueDateStr) {
 // tasks list
 // ==========================================
 
-function createTaskCard(task, active) {
+function createTaskCard(task, active, editingTaskId) {
     const taskCard = document.createElement("article");
     taskCard.classList.add("card-task");
     taskCard.dataset.id = task.id;
+    taskCard.classList.toggle("selected", task.id === editingTaskId);
 
     const taskCheckbox = document.createElement("input");
     taskCheckbox.type = "checkbox";
@@ -178,18 +179,21 @@ export function displayTasks() {
     const header = document.getElementById("task-list-header");
     header.classList.toggle("show-project", active?.id === "all" || active?.id === "today");
 
-    state.getFilteredTasks().forEach(task => container.appendChild(createTaskCard(task, active)));
+    const editForm = document.getElementById("edit-task-form");
+    const editingTaskId = editForm.dataset.editingId || null;
+
+    state.getFilteredTasks().forEach(task => container.appendChild(createTaskCard(task, active, editingTaskId)));
 }
 
 // editable inline title input (also for quick-add)
 // ==========================================
 
 export function createTaskTitleInput(currentValue, onCommit) {
-    const input = document.createElement("input");
-    input.type = "text";
+    const input = document.createElement("textarea");
     input.classList.add("task-title-input");
     input.value = currentValue;
     input.placeholder = "New task";
+    input.rows = 1;
 
     let committed = false;
     function commitOnce(value) {
@@ -199,7 +203,7 @@ export function createTaskTitleInput(currentValue, onCommit) {
     }
 
     input.addEventListener("keydown", (e) => {
-        if (e.key === "Enter") {
+        if (e.key === "Enter" && !e.shiftKey) {
             e.preventDefault();
             commitOnce(input.value.trim());
         }

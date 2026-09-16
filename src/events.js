@@ -206,8 +206,12 @@ function editTask() {
 
     taskList.addEventListener("click", (e) => {
         if (e.target.classList.contains("task-checkbox")) return;
+        if (e.target.closest(".task-title")) return;
         const card = e.target.closest(".card-task");
-        if (card) render.displayTaskEditor(card.dataset.id);
+        if (card) {
+            render.displayTaskEditor(card.dataset.id);
+            render.displayTasks();
+        }
     });
 
     editForm.addEventListener("submit", (e) => {
@@ -275,8 +279,13 @@ function editTaskTitleInline() {
     document.getElementById("tasks-list").addEventListener("click", (e) => {
         const titleEl = e.target.closest(".task-title");
         if (!titleEl) return;
+
         const card = titleEl.closest(".card-task");
+        document.querySelectorAll(".card-task.selected").forEach(c => c.classList.remove("selected"));
+        card.classList.add("selected");
+        
         const task = state.getTaskById(card.dataset.id);
+        render.displayTaskEditor(card.dataset.id);
         render.editTaskTitle(card, task);
     });
 }
@@ -329,9 +338,9 @@ function attachTaskEvents() {
     toggleTaskCheckbox();
     checklistEvents("#task-checklist-items", "#task-add-checklist-item-btn");
     checklistEvents("#edit-task-checklist-items", "#edit-task-add-checklist-item-btn");
+    editTaskTitleInline();
     editTask();
     addQuickTask();
-    editTaskTitleInline();
     updatePrioritySelectColor("task-priority");
     updatePrioritySelectColor("edit-task-priority");
 }

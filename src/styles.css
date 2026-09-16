@@ -457,6 +457,12 @@ main header button {
     display: grid;
 }
 
+.card-task.selected {
+  background: var(--c-grey-700);
+  border-radius: 6px;
+}
+
+
 /* MODALS/FORMS/INPUTS GENERAL
 ====================================================== */
 
@@ -545,6 +551,7 @@ input:focus, textarea:focus, select:focus {
 
 .task-title-input {
     min-width: 400px;
+    min-height: auto;
 }
 
 
