@@ -206,7 +206,7 @@ function editTask() {
 
     taskList.addEventListener("click", (e) => {
         if (e.target.classList.contains("task-checkbox")) return;
-        if (e.target.closest(".task-title")) return;
+        if (e.target.closest(".task-title, .task-title-input")) return;
         const card = e.target.closest(".card-task");
         if (card) {
             render.displayTaskEditor(card.dataset.id);
@@ -262,11 +262,11 @@ function createQuickTask() {
 
 function displayQuickTask() {
     const existing = document.querySelector(".card-task-new");
-    if (existing) { existing.querySelector("input").focus(); return; }
+    if (existing) { existing.querySelector("textarea").focus(); return; }
 
     const tasksList = document.querySelector(".tasks-list");
     tasksList.appendChild(createQuickTask());
-    tasksList.querySelector(".card-task-new input").focus();
+    tasksList.querySelector(".card-task-new textarea").focus();
 }
 
 function addQuickTask() {

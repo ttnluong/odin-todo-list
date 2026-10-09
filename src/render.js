@@ -212,7 +212,9 @@ export function createTaskTitleInput(currentValue, onCommit) {
         }
     });
 
-    input.addEventListener("focusout", () => {
+    input.addEventListener("focusout", (e) => {
+        console.log("focusout, moving to:", e.relatedTarget);
+    console.trace();
         commitOnce(input.value.trim());
     });
 
