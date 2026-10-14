@@ -1,5 +1,5 @@
 # Todo List
-A simple browser-based task manager built with vanilla JavaScript, HTML, and CSS, created as part of The Odin Project curriculum.
+A browser-based task manager built with vanilla JavaScript, HTML, and CSS, created as part of The Odin Project curriculum. Features built with help of AI, UI design by me.
 
 Project from [The Odin Project](https://www.theodinproject.com/lessons/node-path-javascript-todo-list) — JavaScript course.
 
