@@ -173,12 +173,29 @@ export function loadState() {
 // examples
 // ==========================================
 
+const example = "isExample";
+
+function addExampleTask(...args) {
+    const task = addTaskToProject(...args);
+    task[example] = true;
+    saveState();
+    return task;
+}
+
 export function addExamples() {
-    if (projects.length || tasks.length) return;
+    const hasUserData = tasks.some((t) => !t[example]) || projects.some((p) => !p[example]);
+    if (hasUserData) return;
+
+    projects.length = 0;
+    tasks.length = 0; 
 
     const portfolio = addProjectToList("Portfolio", "Todos for my portfolio website", "#AF59E1");
     const learning = addProjectToList("Learning", "Courses and skills to pick up", "#4688EC");
     const personal = addProjectToList("Personal", "General reminders", "#94C748");
+
+    portfolio[example] = true;
+    learning[example] = true;
+    personal[example] = true;
 
     const dayOffset = (n) => new Date(Date.now() + n * 86400000).toISOString().split("T")[0];
 
@@ -188,21 +205,25 @@ export function addExamples() {
     const coming = dayOffset(14);
     const future = dayOffset(50);
 
-    addTaskToProject(portfolio.id, "Add 2 more projects", "Include Q3 numbers and forecast", coming, "High", "",
+    const taskDone = addExampleTask(portfolio.id, "Add 2 more projects", "Include Q3 numbers and forecast", coming, "High", "",
         [{ id: crypto.randomUUID(), text: "Todo list", done: true },
-         { id: crypto.randomUUID(), text: "Weather app", done: false }]);
+         { id: crypto.randomUUID(), text: "Weather app", done: true }]);
+    taskDone.done = true;
+    saveState();
 
-    addTaskToProject(portfolio.id, "Update hero section", "", tomorrow, "", "");
+    addExampleTask(portfolio.id, "Update hero section", "", tomorrow, "", "",
+        [{ id: crypto.randomUUID(), text: "Lookup examples", done: true },
+         { id: crypto.randomUUID(), text: "Update portfolio website", done: false }]);
 
-    addTaskToProject(learning.id, "Learn motion design", "", future, "Medium", ""),
+    addExampleTask(learning.id, "Learn motion design", "", future, "Medium", "");
     
-    addTaskToProject(learning.id, "Finish The Odin Project Full Stack course", "Javascript course", "", "", "theodinproject.com",
+    addExampleTask(learning.id, "Finish The Odin Project Full Stack course", "Javascript course", "", "", "theodinproject.com",
         [{ id: crypto.randomUUID(), text: "Intermediate HTML and CSS", done: true },
          { id: crypto.randomUUID(), text: "Javascript", done: false },
          { id: crypto.randomUUID(), text: "Advanced HTML and CSS", done: false },
          { id: crypto.randomUUID(), text: "React", done: false }]);
 
-    addTaskToProject(personal.id, "Lookup gifts for Inez", "", overdue, "Low", "Order before wednesday");
+    addExampleTask(personal.id, "Lookup gifts for Inez", "", overdue, "Low", "Order before wednesday");
 
-    addTaskToProject(null, "Call mom", "", "", "", "Call before 11 am");
+    addExampleTask(null, "Call mom", "", "", "", "Call before 11 am");
 }
